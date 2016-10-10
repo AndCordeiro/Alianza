@@ -1,30 +1,29 @@
 package com.example.alianza.entities;
 
-import java.util.Calendar;
-
 /**
  * Created by andre on 09/10/16.
  */
 
 public class Player {
 
+
     private int id;
-    private Calendar birth;
-    private String name;
+    private String birth;
+    private String player;
     private String description;
+    private String position;
+    private String photo;
 
-
-    public Player(int id, Calendar birth, String name, String description){
+    /*public Player(int id, Calendar birth, String player, String description, String position, File photo){
 
         this.id = id;
         this.birth = birth;
-        this.name = name;
+        this.player = player;
         this.description = description;
+        this.position = position;
+        this.photo = photo;
 
-    }
-
-
-
+    }*/
 
 
 
@@ -36,20 +35,20 @@ public class Player {
         this.id = id;
     }
 
-    public Calendar getBirth() {
+    public String getBirth() {
         return birth;
     }
 
-    public void setBirth(Calendar birth) {
+    public void setBirth(String birth) {
         this.birth = birth;
     }
 
-    public String getName() {
-        return name;
+    public String getPlayer() {
+        return player;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPlayer(String player) {
+        this.player = player;
     }
 
     public String getDescription() {
@@ -60,12 +59,31 @@ public class Player {
         this.description = description;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String  photo) {
+        this.photo = photo;
+    }
+
 
     @Override
     public String toString() {
         return "Player{" +
-                "name='" + name + '\'' +
+                "birth='" + birth + '\'' +
+                ", player='" + player + '\'' +
                 ", description='" + description + '\'' +
+                ", position='" + position + '\'' +
+                ", photo='" + photo + '\'' +
                 '}';
     }
 }

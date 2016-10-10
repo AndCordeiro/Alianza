@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +13,30 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:padding="@dimen/md_keylines">
+    android:gravity="center"
+    android:layout_margin="4dp">
+
+    <ImageView
+        android:id="@+id/picture_team_1"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/perfil_sombra"/>
+
+
     <TextView
-        android:id="@+id/card_match"
-        android:layout_width="wrap_content"
+        android:id="@+id/name_player"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:text="@string/tabs_name_match" />
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        tools:text="@string/name_player"/>
+
 </LinearLayout>

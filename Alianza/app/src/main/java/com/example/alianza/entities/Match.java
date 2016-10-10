@@ -9,16 +9,15 @@ import java.util.Calendar;
 public class Match {
 
     private int id;
-    private Calendar dateOfMatch;
+    private String dateOfMatch;
     private String hourOfMatch;
     private String opponentTeam;
     private String placeOfMatch;
     private String description;
-    private String position;
-    public final String TEAM = "Alianza";
+    private String team;
 
 
-    public Match(int id, Calendar dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description, String position){
+    /*public Match(int id, Calendar dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description){
 
         this.id = id;
         this.dateOfMatch = dateOfMatch;
@@ -26,11 +25,74 @@ public class Match {
         this.opponentTeam = opponentTeam;
         this.placeOfMatch = placeOfMatch;
         this.description = description;
-        this.position = position;
 
+    }*/
+
+    public int getId() {
+        return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
+    public String getDateOfMatch() {
+        return dateOfMatch;
+    }
 
+    public void setDateOfMatch(String dateOfMatch) {
+        this.dateOfMatch = dateOfMatch;
+    }
 
+    public String getHourOfMatch() {
+        return hourOfMatch;
+    }
+
+    public void setHourOfMatch(String hourOfMatch) {
+        this.hourOfMatch = hourOfMatch;
+    }
+
+    public String getOpponentTeam() {
+        return opponentTeam;
+    }
+
+    public void setOpponentTeam(String opponentTeam) {
+        this.opponentTeam = opponentTeam;
+    }
+
+    public String getPlaceOfMatch() {
+        return placeOfMatch;
+    }
+
+    public void setPlaceOfMatch(String placeOfMatch) {
+        this.placeOfMatch = placeOfMatch;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTeam() {
+        return team;
+    }
+
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
+    @Override
+    public String toString() {
+        return "Match{" +
+                "dateOfMatch='" + dateOfMatch + '\'' +
+                ", hourOfMatch='" + hourOfMatch + '\'' +
+                ", opponentTeam='" + opponentTeam + '\'' +
+                ", placeOfMatch='" + placeOfMatch + '\'' +
+                ", description='" + description + '\'' +
+                ", team='" + team + '\'' +
+                '}';
+    }
 }

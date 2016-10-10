@@ -2,5 +2,5 @@
 <resources>
     <string name="tabs_name_match">Partidas</string>
     <string name="tabs_name_news">Noticias</string>
-    <string name="tabs_name_team">Time</string>
+    <string name="tabs_name_team">Equipe</string>
 </resources>

@@ -3,4 +3,22 @@
     <string name="tabs_name_news">News</string>
     <string name="tabs_name_team">Team</string>
     <string name="tabs_name_match">Matches</string>
+
+    <!--Strings Match -->
+    <string name="name_team">E.C. Alianza</string>
+    <string name="x">X</string>
+    <string name="name_team2">Team 2</string>
+    <string name="name_place">Place</string>
+    <string name="date_match">date</string>
+
+    <!--Strings Team -->
+    <string name="name_name">name Name</string>
+    <string name="age_name">name Age</string>
+
+    <!--Strings News -->
+    <string name="title_news">News Title</string>
+    <string name="author_news">Author</string>
+    <string name="news">News</string>
+
+
 </resources>

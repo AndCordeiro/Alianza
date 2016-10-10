@@ -4,20 +4,22 @@ package com.example.alianza.entities;
  * Created by andre on 09/10/16.
  */
 
-public class New {
+public class News {
 
     private int id;
     private String title;
     private String news;
+    private String author;
 
 
-    public New(int id, String title, String news){
+    /*public News(int id, String title, String news, String author){
 
         this.id = id;
         this.title = title;
         this.news = news;
+        this.author = author;
 
-    }
+    }*/
 
 
     public int getId() {
@@ -44,12 +46,20 @@ public class New {
         this.news = news;
     }
 
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 
     @Override
     public String toString() {
-        return "New{" +
+        return "News{" +
                 "title='" + title + '\'' +
                 ", news='" + news + '\'' +
+                ", author='" + author + '\'' +
                 '}';
     }
 }
