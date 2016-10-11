@@ -24,7 +24,7 @@
     android:layout_margin="4dp">
 
     <ImageView
-        android:id="@+id/picture_team_1"
+        android:id="@+id/picturePlayer"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
@@ -38,5 +38,13 @@
         android:gravity="center"
         android:textColor="@color/colorBlack"
         tools:text="@string/name_player"/>
+
+    <TextView
+        android:id="@+id/age_player"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/colorBlack"
+        tools:text="@string/player_age"/>
 
 </LinearLayout>

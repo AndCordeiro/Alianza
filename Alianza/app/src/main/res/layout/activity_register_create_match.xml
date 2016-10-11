@@ -37,67 +37,86 @@
 
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputTitleNews"
+            android:id="@+id/textInputDateOfMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000">
 
             <EditText
-                android:id="@+id/editTextTitleNews"
+                android:id="@+id/editTextDateOfMatch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/title_news"
+                android:hint="@string/date_match"
                 android:maxLines="1"
-                android:textColor="@color/colorBlack"/>
+                android:textColor="@color/colorBlack"
+                android:onClick="showDatePickerDialog"
+                android:editable="false"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputHourOfMatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+
+            <EditText
+                android:id="@+id/editTextHourOfMatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hour_match"
+                android:maxLines="1"
+                android:textColor="@color/colorBlack"
+                android:onClick="showTimePickerDialog"
+                android:editable="false"/>
 
         </android.support.design.widget.TextInputLayout>
 
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputAuthorNews"
+            android:id="@+id/textInputOpponentTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000">
 
 
             <EditText
-                android:id="@+id/editTextAuthorNews"
+                android:id="@+id/editTextOpponentTeam"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/author_news"
+                android:hint="@string/name_opponent_team"
                 android:maxLines="1"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputDateNews"
+            android:id="@+id/textInputPlaceOfMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000">
 
 
-        <EditText
-            android:id="@+id/editTextDateNews"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/news_date"
-            android:maxLines="1"
-            android:onClick="showDatePickerDialog" />
+            <EditText
+                android:id="@+id/editTextPlaceOfMatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/name_place"
+                android:maxLines="2"/>
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputNews"
+            android:id="@+id/textInputDescriptionMatch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColorHint="#000000">
 
             <EditText
-                android:id="@+id/editTextNews"
+                android:id="@+id/editTextDescriptionMatch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/news"
-                android:maxLength="160"/>
+                android:hint="@string/description_match"
+                android:maxLines="4"/>
 
 
         </android.support.design.widget.TextInputLayout>

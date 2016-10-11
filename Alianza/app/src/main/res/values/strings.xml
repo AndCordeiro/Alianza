@@ -7,18 +7,36 @@
     <!--Strings Match -->
     <string name="name_team">E.C. Alianza</string>
     <string name="x">X</string>
-    <string name="name_team2">Team 2</string>
+    <string name="name_opponent_team">Opponent Team</string>
     <string name="name_place">Place</string>
-    <string name="date_match">date</string>
+    <string name="date_match">Date</string>
+    <string name="hour_match">Hour</string>
+    <string name="description_match">Description</string>
 
     <!--Strings Team -->
-    <string name="name_name">name Name</string>
-    <string name="age_name">name Age</string>
+    <string name="name_player">Name</string>
+    <string name="player_birth">Birth</string>
+    <string name="description_player">Description</string>
+    <string name="position_player">Position</string>
+    <string name="photo_player">Photo</string>
+    <string name="player_age">Age</string>
 
     <!--Strings News -->
     <string name="title_news">News Title</string>
     <string name="author_news">Author</string>
     <string name="news">News</string>
+    <string name="news_date">News Date</string>
+
+    <!--Strings Menu -->
+    <string name="menu_add">Add</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_check">Check</string>
+    <string name="title_activity_navigation_drawer">NavigationDrawer</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

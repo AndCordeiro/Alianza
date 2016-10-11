@@ -16,8 +16,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:theme="@style/AppThemeRegisterCreate"
-            android:name=".activity.RegisterCreateNewsActivity"></activity>
+            android:name=".activity.RegisterCreateNewsActivity"
+            android:theme="@style/AppThemeRegisters" />
+        <activity android:name=".activity.RegisterCreatePlayerActivity" />
+        <activity android:name=".activity.RegisterCreateMatchActivity" />
     </application>
 
 </manifest>

@@ -30,7 +30,7 @@ public class NewsDAO {
 
 
 
-    public String dataInsert(String title, String news, String author){
+    public String dataInsert(String title, String news, String author, String dateNews){
 
         ContentValues values;
         long result;
@@ -40,6 +40,7 @@ public class NewsDAO {
         values.put(TableNews.TITLE, title);
         values.put(TableNews.NEWS, news);
         values.put(TableNews.AUTHOR, author);
+        values.put(TableNews.DATENEWS, dateNews);
 
 
         result = db.insert(TableNews.NAME, null, values);
@@ -68,6 +69,7 @@ public class NewsDAO {
                 news.setTitle(cursor.getString(cursor.getColumnIndex(TableNews.TITLE)));
                 news.setNews((cursor.getString(cursor.getColumnIndex(TableNews.NEWS))));
                 news.setAuthor(cursor.getString(cursor.getColumnIndex(TableNews.AUTHOR)));
+                news.setDateNews(cursor.getString(cursor.getColumnIndex(TableNews.DATENEWS)));
                 newsList.add(news);
                 cursor.moveToNext();
             }
@@ -97,6 +99,7 @@ public class NewsDAO {
                 news.setTitle(cursor.getString(cursor.getColumnIndex(TableNews.TITLE)));
                 news.setNews((cursor.getString(cursor.getColumnIndex(TableNews.NEWS))));
                 news.setAuthor(cursor.getString(cursor.getColumnIndex(TableNews.AUTHOR)));
+                news.setDateNews(cursor.getString(cursor.getColumnIndex(TableNews.DATENEWS)));
                 newsList.add(news);
                 cursor.moveToNext();
             }
@@ -125,6 +128,7 @@ public class NewsDAO {
                 news.setTitle(cursor.getString(cursor.getColumnIndex(TableNews.TITLE)));
                 news.setNews((cursor.getString(cursor.getColumnIndex(TableNews.NEWS))));
                 news.setAuthor(cursor.getString(cursor.getColumnIndex(TableNews.AUTHOR)));
+                news.setDateNews(cursor.getString(cursor.getColumnIndex(TableNews.DATENEWS)));
                 newsList.add(news);
                 cursor.moveToNext();
             }
@@ -148,6 +152,7 @@ public class NewsDAO {
         values.put(TableNews.TITLE, title);
         values.put(TableNews.NEWS, news);
         values.put(TableNews.AUTHOR, author);
+        values.put(TableNews.DATENEWS, author);
 
         db.update(TableNews.NAME,values,where,null);
         db.close();

@@ -25,7 +25,7 @@ public class TableMatch {
 
         String sql = "CREATE TABLE "+ NAME +"("
                 + ID + " integer primary key autoincrement,"
-                + DATEOFMATCH + " text,"
+                + DATEOFMATCH + " date,"
                 + HOUROFMATCH + " text,"
                 + TEAM + " text,"
                 + OPPONENTTEAM + " text,"

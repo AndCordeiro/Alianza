@@ -13,6 +13,7 @@ public class TableNews {
     public static final String TITLE = "title";
     public static final String NEWS = "news";
     public static final String AUTHOR = "author";
+    public static final String DATENEWS = "date";
 
 
     public static final String createStatement(){
@@ -22,6 +23,7 @@ public class TableNews {
                 + TITLE + " text,"
                 + NEWS + " text,"
                 + AUTHOR + " text"
+                + DATENEWS + " date"
                 +")";
 
         return sql;

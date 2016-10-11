@@ -10,6 +10,7 @@ public class News {
     private String title;
     private String news;
     private String author;
+    private String dateNews;
 
 
     /*public News(int id, String title, String news, String author){
@@ -54,12 +55,21 @@ public class News {
         this.author = author;
     }
 
+    public String getDateNews() {
+        return dateNews;
+    }
+
+    public void setDateNews(String dateNews) {
+        this.dateNews = dateNews;
+    }
+
     @Override
     public String toString() {
         return "News{" +
                 "title='" + title + '\'' +
                 ", news='" + news + '\'' +
                 ", author='" + author + '\'' +
+                ", dateNews='" + dateNews + '\'' +
                 '}';
     }
 }
