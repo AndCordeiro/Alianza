@@ -20,6 +20,9 @@
             android:theme="@style/AppThemeRegisters" />
         <activity android:name=".activity.RegisterCreatePlayerActivity" />
         <activity android:name=".activity.RegisterCreateMatchActivity" />
+        <activity android:name=".activity.VisualizationNewsActivity" />
+        <activity android:name=".activity.VisualizationPlayerActivity" />
+        <activity android:name=".activity.VisualizationMatchActivity"></activity>
     </application>
 
 </manifest>
