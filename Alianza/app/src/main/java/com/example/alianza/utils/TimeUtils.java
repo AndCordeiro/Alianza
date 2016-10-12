@@ -1,12 +1,8 @@
 package com.example.alianza.utils;
 
-import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.widget.TimePicker;
 
 import java.util.Calendar;
 
@@ -16,18 +12,9 @@ import java.util.Calendar;
 
 public class TimeUtils {
 
-    private Context context;
-    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
 
 
-
-    public TimeUtils(Context context, TimePickerDialog.OnTimeSetListener onTimeSetListener) {
-
-        this.context = context;
-        this.onTimeSetListener = onTimeSetListener;
-    }
-
-    public TimePickerDialog onCreateDialog() {
+    public static TimePickerDialog createTimeDialog(Context context,TimePickerDialog.OnTimeSetListener onTimeSetListener ) {
         // Use the current time as the default values for the picker
         final Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
@@ -36,6 +23,24 @@ public class TimeUtils {
         // Create a new instance of TimePickerDialog and return it
         return new TimePickerDialog(context, onTimeSetListener, hour, minute,
                 DateFormat.is24HourFormat(context));
+    }
+
+    public static String formatTimePicker(int hour, int minute){
+
+        String hourFormater = String.valueOf((hour>9)?hour:("0" + hour));
+        String minuteFormater = String.valueOf((minute>9)?minute:("0" + minute));
+
+
+        return hourFormater + ":" + minuteFormater;
+    }
+
+    public static String formatTimePicker(int hour, int minute, String mask){
+
+        String hourFormater = String.valueOf((hour>9)?hour:("0" + hour));
+        String minuteFormater = String.valueOf((minute>9)?minute:("0" + minute));
+
+
+        return hourFormater + mask + minuteFormater;
     }
 
 

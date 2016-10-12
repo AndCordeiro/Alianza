@@ -2,16 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:icon="@drawable/ic_photo_camera_white_24dp"
-            android:tint="@color/colorAccent"
-            android:title="One" />
-        <item
-            android:icon="@drawable/ic_photo_camera_white_24dp"
-            android:tint="@color/colorPrimary"
-            android:title="Two" />
-        <item
-            android:icon="@drawable/ic_local_see_black_24dp"
-            android:tint="@color/colorPrimaryDark"
-            android:title="Three" />
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/menu_drawer_settings"/>
+
     </group>
 </menu>

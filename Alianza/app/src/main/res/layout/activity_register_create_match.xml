@@ -50,7 +50,8 @@
                 android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:onClick="showDatePickerDialog"
-                android:editable="false"/>
+                android:editable="false"
+                android:focusable="false"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -68,7 +69,8 @@
                 android:maxLines="1"
                 android:textColor="@color/colorBlack"
                 android:onClick="showTimePickerDialog"
-                android:editable="false"/>
+                android:editable="false"
+                android:focusable="false"/>
 
         </android.support.design.widget.TextInputLayout>
 
