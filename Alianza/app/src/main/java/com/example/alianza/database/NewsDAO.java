@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.alianza.database.table.TableNews;
-import com.example.alianza.entities.News;
+import com.example.alianza.pojo.News;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +77,7 @@ public class NewsDAO {
         }
 
         db.close();
+
 
         return newsList;
     }

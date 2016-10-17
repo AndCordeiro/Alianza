@@ -1,5 +1,6 @@
 package com.example.alianza.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,7 +12,9 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -20,12 +23,15 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.example.alianza.adapters.MainAdapter;
+import com.example.alianza.adapters.PlayerAdapter;
+import com.example.alianza.database.PlayerDAO;
 import com.example.alianza.fragments.MatchFragment;
 import com.example.alianza.fragments.NewsFragment;
 import com.example.alianza.R;
 import com.example.alianza.fragments.PlayerFragment;
+import com.example.alianza.pojo.Player;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     final int newsTabs = 0;
     final int teamTabs = 1;
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         if (supportActionBar != null) {
             VectorDrawableCompat indicator =
                     VectorDrawableCompat.create(getResources(), R.drawable.ic_menu_black_24dp, getTheme());
-            indicator.setTint(ResourcesCompat.getColor(getResources(),R.color.colorWhite,getTheme()));
+            indicator.setTint(ResourcesCompat.getColor(getResources(), R.color.colorWhite, getTheme()));
             supportActionBar.setHomeAsUpIndicator(indicator);
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
@@ -90,18 +96,18 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                if(getPosition() == newsTabs){
+                if (getPosition() == newsTabs) {
 
                     Intent intent = new Intent(MainActivity.this, RegisterCreateNewsActivity.class);
                     startActivity(intent);
 
 
-                }else if(getPosition() == teamTabs){
+                } else if (getPosition() == teamTabs) {
 
                     Intent intent = new Intent(MainActivity.this, RegisterCreatePlayerActivity.class);
                     startActivity(intent);
 
-                }else{
+                } else {
 
                     Intent intent = new Intent(MainActivity.this, RegisterCreateMatchActivity.class);
                     startActivity(intent);
@@ -130,7 +136,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case matchTabs:
-                        setPosition(matchTabs);;
+                        setPosition(matchTabs);
+                        ;
                         break;
 
                 }
@@ -169,17 +176,17 @@ public class MainActivity extends AppCompatActivity {
 
                 if (s.length() >= 3) {
 
-                    if(getPosition() == newsTabs){
+                    if (getPosition() == newsTabs) {
 
                         //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));                        startActivity(intent);
                         System.out.println(" Pesquisa news");
 
-                    }else if(getPosition() == teamTabs){
+                    } else if (getPosition() == teamTabs) {
 
                         //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));
                         System.out.println(" Pesquisa team");
 
-                    }else{
+                    } else {
 
                         //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));;
                         System.out.println(" Pesquisa match");
@@ -187,15 +194,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 } else {
 
-                    if(getPosition() == newsTabs){
+                    if (getPosition() == newsTabs) {
 
                         //setLivros();
 
-                    }else if(getPosition() == teamTabs){
+                    } else if (getPosition() == teamTabs) {
 
                         //setLivros();
 
-                    }else{
+                    } else {
 
                         //setLivros();
 
@@ -241,5 +248,7 @@ public class MainActivity extends AppCompatActivity {
     public void setPosition(int position) {
         this.position = position;
     }
+
+
 
 }

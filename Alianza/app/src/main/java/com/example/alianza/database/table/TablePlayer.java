@@ -23,8 +23,8 @@ public class TablePlayer {
                 + ID + " integer primary key autoincrement,"
                 + PLAYER + " text,"
                 + BIRTH + " date,"
-                + DESCRIPTION + " text"
-                + POSITION + " text"
+                + DESCRIPTION + " text,"
+                + POSITION + " text,"
                 + PHOTO + " text"
                 +")";
 

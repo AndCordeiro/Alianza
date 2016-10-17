@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.alianza.database.table.TablePlayer;
-import com.example.alianza.entities.Player;
+import com.example.alianza.pojo.Player;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,14 +30,14 @@ public class PlayerDAO {
 
 
 
-    public String dataInsert(Calendar birth, String player, String description, String position, File photo){
+    public String dataInsert(String birth, String player, String description, String position, File photo){
 
         ContentValues values;
         long result;
 
         db = dataBase.getWritableDatabase();
         values = new ContentValues();
-        values.put(TablePlayer.BIRTH, String.valueOf(birth));
+        values.put(TablePlayer.BIRTH, birth);
         values.put(TablePlayer.PLAYER, player);
         values.put(TablePlayer.DESCRIPTION, description);
         values.put(TablePlayer.POSITION, position);

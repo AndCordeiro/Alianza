@@ -1,6 +1,4 @@
-package com.example.alianza.entities;
-
-import java.util.Calendar;
+package com.example.alianza.pojo;
 
 /**
  * Created by andre on 09/10/16.
@@ -14,7 +12,7 @@ public class Match {
     private String opponentTeam;
     private String placeOfMatch;
     private String description;
-    private String team;
+    public static final String TEAM = "Alianza";
 
 
     /*public Match(int id, Calendar dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description){
@@ -76,23 +74,16 @@ public class Match {
         this.description = description;
     }
 
-    public String getTeam() {
-        return team;
-    }
-
-    public void setTeam(String team) {
-        this.team = team;
-    }
 
     @Override
     public String toString() {
         return "Match{" +
-                "dateOfMatch='" + dateOfMatch + '\'' +
+                "id=" + id +
+                ", dateOfMatch='" + dateOfMatch + '\'' +
                 ", hourOfMatch='" + hourOfMatch + '\'' +
                 ", opponentTeam='" + opponentTeam + '\'' +
                 ", placeOfMatch='" + placeOfMatch + '\'' +
                 ", description='" + description + '\'' +
-                ", team='" + team + '\'' +
                 '}';
     }
 }

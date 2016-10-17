@@ -8,6 +8,9 @@ import com.example.alianza.R;
 
 public class VisualizationMatchActivity extends AppCompatActivity {
 
+
+    public static final String ID = "match";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -16,6 +19,8 @@ public class VisualizationMatchActivity extends AppCompatActivity {
         // Adding Toolbar to screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+
 
     }
 }

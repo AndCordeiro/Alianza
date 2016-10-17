@@ -8,6 +8,10 @@ import com.example.alianza.R;
 
 public class VisualizationPlayerActivity extends AppCompatActivity {
 
+    public static final String ID = "player";
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

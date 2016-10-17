@@ -22,8 +22,8 @@ public class TableNews {
                 + ID + " integer primary key autoincrement,"
                 + TITLE + " text,"
                 + NEWS + " text,"
-                + AUTHOR + " text"
-                + DATENEWS + " date"
+                + AUTHOR + " text,"
+                + DATENEWS + " date time"
                 +")";
 
         return sql;

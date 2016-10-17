@@ -10,7 +10,7 @@ public class TableMatch {
 
     //Table Match
 
-    public static final String NAME = "player";
+    public static final String NAME = "match";
     public static final String ID = "_id";
     public static final String DATEOFMATCH = "date";
     public static final String HOUROFMATCH = "hour";
@@ -29,7 +29,7 @@ public class TableMatch {
                 + HOUROFMATCH + " text,"
                 + TEAM + " text,"
                 + OPPONENTTEAM + " text,"
-                + PLACEOFMATCH + " text"
+                + PLACEOFMATCH + " text,"
                 + DESCRIPTION + " text"
                 +")";
 

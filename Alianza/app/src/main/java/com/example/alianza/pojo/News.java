@@ -1,4 +1,4 @@
-package com.example.alianza.entities;
+package com.example.alianza.pojo;
 
 /**
  * Created by andre on 09/10/16.

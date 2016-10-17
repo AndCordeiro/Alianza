@@ -3,13 +3,25 @@ package com.example.alianza.utils;
 import android.app.DatePickerDialog;
 import android.content.Context;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 /**
  * Created by andre on 11/10/16.
  */
 
 public class DateUtils {
+
+    public static final String DATE_BR = "dd/MM/yyyy";
+    public static final String DATETIME_BR = DATE_BR + " HH:mm:ss";
+
+    public static final String DATE_USA = "MM/dd/yyyy";
+    public static final String DATETIME_USA = DATE_USA + " HH:mm:ss";
+
+    public static final String DATE_DB = "yyyy-MM-dd";
+    public static final String DATETIME_DB = DATE_DB + " HH:mm:ss";
 
     public static DatePickerDialog createDateDialog(Context context, DatePickerDialog.OnDateSetListener onDateSetListener) {
         // Use the current date as the default date in the picker
@@ -25,7 +37,7 @@ public class DateUtils {
     public static String formatDatePicker(int day, int month, int year){
 
         String dayFormater = String.valueOf((day>9)?day:("0" + day));
-        String monthFormater = String.valueOf((month>9)?month:("0" + month));
+        String monthFormater = String.valueOf(((month + 1)>9)?(month + 1):("0" + (month + 1)));
         String yearFormater = String.valueOf(year);
 
 
@@ -35,12 +47,70 @@ public class DateUtils {
     public static String formatDatePicker(int day, int month, int year, String mask){
 
         String dayFormater = String.valueOf((day>9)?day:("0" + day));
-        String monthFormater = String.valueOf((month>9)?month:("0" + month));
+        String monthFormater = String.valueOf(((month + 1)>9)?(month + 1):("0" + (month + 1)));
         String yearFormater = String.valueOf(year);
 
 
         return dayFormater + mask + monthFormater + mask + yearFormater;
     }
+
+    public static String getDate(String mask){
+
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat(mask);
+
+
+        return dateFormat.format(calendar.getTime());
+
+    }
+
+    public static String formatDate(String stringDate, String maskFrom, String maskTo) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat(maskFrom);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(sdf.parse(stringDate));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        SimpleDateFormat dateFormat = new SimpleDateFormat(maskTo);
+
+        return dateFormat.format(cal.getTime());
+    }
+
+    public static String getAge(String dateBirth, String mask) {
+
+        return null;
+    }
+
+    public static String getAge(String dateBirth) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_DB);
+        Calendar cal = Calendar.getInstance();
+        try {
+            cal.setTime(sdf.parse(dateBirth));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        Calendar today = Calendar.getInstance();
+
+
+        int age = today.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
+
+        cal.add(Calendar.YEAR, age);
+
+
+        if (today.before(cal)) {
+
+            age--;
+
+        }
+
+        return Integer.toString(age);
+    }
+
 
 }
 

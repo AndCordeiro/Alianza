@@ -7,8 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.example.alianza.database.table.TableMatch;
 import com.example.alianza.database.table.TableNews;
-import com.example.alianza.entities.Match;
-import com.example.alianza.entities.News;
+import com.example.alianza.pojo.Match;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +68,6 @@ public class MatchDAO {
                 match.setId(cursor.getInt(cursor.getColumnIndex(TableMatch.ID)));
                 match.setDateOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.DATEOFMATCH)));
                 match.setHourOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.HOUROFMATCH)));
-                match.setTeam((cursor.getString(cursor.getColumnIndex(TableMatch.TEAM))));
                 match.setOpponentTeam(cursor.getString(cursor.getColumnIndex(TableMatch.OPPONENTTEAM)));
                 match.setDescription(cursor.getString(cursor.getColumnIndex(TableMatch.DESCRIPTION)));
                 match.setPlaceOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.PLACEOFMATCH)));
@@ -102,7 +100,6 @@ public class MatchDAO {
                 match.setId(cursor.getInt(cursor.getColumnIndex(TableMatch.ID)));
                 match.setDateOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.DATEOFMATCH)));
                 match.setHourOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.HOUROFMATCH)));
-                match.setTeam((cursor.getString(cursor.getColumnIndex(TableMatch.TEAM))));
                 match.setOpponentTeam(cursor.getString(cursor.getColumnIndex(TableMatch.OPPONENTTEAM)));
                 match.setDescription(cursor.getString(cursor.getColumnIndex(TableMatch.DESCRIPTION)));
                 match.setPlaceOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.PLACEOFMATCH)));
@@ -116,7 +113,7 @@ public class MatchDAO {
         return matches;
     }
 
-    public void recordsLoad(int id, String dateOfMatch,String hourOfMatch, String team, String opponent, String description, String placeOfMatch){
+    public void recordsLoad(int id, String dateOfMatch,String hourOfMatch, String opponent, String description, String placeOfMatch){
 
         ContentValues values;
         String where;
@@ -128,7 +125,6 @@ public class MatchDAO {
         values = new ContentValues();
         values.put(TableMatch.DATEOFMATCH, dateOfMatch);
         values.put(TableMatch.HOUROFMATCH, hourOfMatch);
-        values.put(TableMatch.TEAM, team);
         values.put(TableMatch.OPPONENTTEAM, opponent);
         values.put(TableMatch.DESCRIPTION, description);
         values.put(TableMatch.PLACEOFMATCH, placeOfMatch);
