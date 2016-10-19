@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "74534135200",
+    "firebase_url": "https://alianza-43035.firebaseio.com",
+    "project_id": "alianza-43035",
+    "storage_bucket": "alianza-43035.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:74534135200:android:6f50e0c393fe20e1",
+        "android_client_info": {
+          "package_name": "com.example.alianza"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "74534135200-sv80nb85kkhm1hafljro71qrb3o5fd7e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUvxn3VnObJm8ZLVHQXd08Y4o-q45YxVI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

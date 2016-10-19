@@ -9,7 +9,7 @@ import java.util.Calendar;
 public class TableMatch {
 
     //Table Match
-
+/*
     public static final String NAME = "match";
     public static final String ID = "_id";
     public static final String DATEOFMATCH = "date";
@@ -36,6 +36,6 @@ public class TableMatch {
         return sql;
     }
 
-
+*/
 
 }

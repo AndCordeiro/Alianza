@@ -1,5 +1,7 @@
 package com.example.alianza.pojo;
 
+import java.util.Calendar;
+
 /**
  * Created by andre on 09/10/16.
  */
@@ -7,34 +9,34 @@ package com.example.alianza.pojo;
 public class Player {
 
 
-    private int id;
+    //private int id;
     private String birth;
     private String player;
     private String description;
     private String position;
     private String photo;
 
-    /*public Player(int id, Calendar birth, String player, String description, String position, File photo){
+    public Player(String birth, String player, String description, String position, String photo){
 
-        this.id = id;
+        //this.id = id;
         this.birth = birth;
         this.player = player;
         this.description = description;
         this.position = position;
         this.photo = photo;
 
-    }*/
+    }
 
 
 
-    public int getId() {
+    /*public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getBirth() {
         return birth;
     }

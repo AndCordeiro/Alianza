@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by andre on 09/10/16.
  */
-
+/*
 public class PlayerDAO {
 
 
@@ -57,7 +57,8 @@ public class PlayerDAO {
 
         List<Player> players = new ArrayList<>();
         db = dataBase.getReadableDatabase();
-        Cursor cursor = db.query(TablePlayer.NAME, new String[]{"*"}, null, null, null, null, null, null);
+        String orderBy = TablePlayer.PLAYER;
+        Cursor cursor = db.query(TablePlayer.NAME, new String[]{"*"}, null, null, null, null, orderBy, null);
 
 
         if(cursor!=null && cursor.moveToFirst()){
@@ -85,10 +86,11 @@ public class PlayerDAO {
 
         List<Player> players = new ArrayList<>();
 
-        String where = TablePlayer.NAME + " LIKE ?";
+        String where = TablePlayer.PLAYER + " LIKE ?";
         String[] whereArgs = {"%"+namePlayer+"%"};
 
         db = dataBase.getReadableDatabase();
+        System.out.println(namePlayer);
         Cursor cursor = db.query(TablePlayer.NAME, new String[]{"*"}, where, whereArgs, null, null, null, null);
 
 
@@ -141,7 +143,7 @@ public class PlayerDAO {
         return players;
     }
 
-    public void recordsAlter(int id, String birth, String player, String description, String position, String photo){
+    public void dataAlter(int id, String birth, String player, String description, String position, String photo){
 
         ContentValues values;
         String where;
@@ -162,7 +164,7 @@ public class PlayerDAO {
 
 
     }
-    public void recordsDelete(int id){
+    public void dataDelete(int id){
 
         String where = TablePlayer.ID + "=" + id;
         db = dataBase.getReadableDatabase();
@@ -171,3 +173,4 @@ public class PlayerDAO {
     }
 
 }
+*/

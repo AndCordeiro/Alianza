@@ -6,23 +6,24 @@ package com.example.alianza.pojo;
 
 public class News {
 
-    private int id;
+    //private int id;
     private String title;
     private String news;
     private String author;
     private String dateNews;
 
 
-    /*public News(int id, String title, String news, String author){
+    public News(String title, String news, String author, String dateNews){
 
-        this.id = id;
+
         this.title = title;
         this.news = news;
         this.author = author;
+        this.dateNews = dateNews;
 
-    }*/
+    }
 
-
+/*
     public int getId() {
         return id;
     }
@@ -30,7 +31,7 @@ public class News {
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getTitle() {
         return title;
     }

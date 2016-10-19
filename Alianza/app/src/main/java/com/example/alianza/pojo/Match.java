@@ -6,7 +6,7 @@ package com.example.alianza.pojo;
 
 public class Match {
 
-    private int id;
+    //private int id;
     private String dateOfMatch;
     private String hourOfMatch;
     private String opponentTeam;
@@ -15,25 +15,25 @@ public class Match {
     public static final String TEAM = "Alianza";
 
 
-    /*public Match(int id, Calendar dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description){
+    public Match(String dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description){
 
-        this.id = id;
+        //this.id = id;
         this.dateOfMatch = dateOfMatch;
         this.hourOfMatch = hourOfMatch;
         this.opponentTeam = opponentTeam;
         this.placeOfMatch = placeOfMatch;
         this.description = description;
 
-    }*/
+    }
 
-    public int getId() {
+    /*public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
     }
-
+*/
     public String getDateOfMatch() {
         return dateOfMatch;
     }
@@ -74,12 +74,10 @@ public class Match {
         this.description = description;
     }
 
-
     @Override
     public String toString() {
         return "Match{" +
-                "id=" + id +
-                ", dateOfMatch='" + dateOfMatch + '\'' +
+                "dateOfMatch='" + dateOfMatch + '\'' +
                 ", hourOfMatch='" + hourOfMatch + '\'' +
                 ", opponentTeam='" + opponentTeam + '\'' +
                 ", placeOfMatch='" + placeOfMatch + '\'' +

@@ -7,7 +7,7 @@ package com.example.alianza.database.table;
 public class TableNews {
 
     //Table news
-
+/*
     public static final String NAME = "news";
     public static final String ID = "_id";
     public static final String TITLE = "title";
@@ -28,6 +28,6 @@ public class TableNews {
 
         return sql;
     }
-
+*/
 
 }

@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="@string/name_team"
-            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack"
             android:textSize="25dp" />
 
         <TextView
@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:hint="@string/x"
-            android:textColor="@color/colorBlack"
+            android:textColorHint="@color/colorBlack"
             android:textSize="25dp" />
 
         <TextView

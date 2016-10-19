@@ -12,7 +12,7 @@ import com.example.alianza.database.table.TablePlayer;
  * Created by andre on 10/10/16.
  */
 
-public class DBHelper extends SQLiteOpenHelper {
+/*public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DBNAME = "alianza.db";
 
@@ -38,4 +38,5 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
-}
+}*/
+

@@ -4,9 +4,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.alianza.database.table.TableNews;
 import com.example.alianza.pojo.News;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +20,24 @@ import java.util.List;
 /**
  * Created by andre on 09/10/16.
  */
-
+/*
 public class NewsDAO {
 
 
 
     private SQLiteDatabase db;
-    private DBHelper banco;
+    private DBHelper dataBase;
+
+    // Write a message to the database
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myNews = database.getReference(TableNews.NEWS);
+    DatabaseReference myTitle = database.getReference(TableNews.TITLE);
+    DatabaseReference myDateNews = database.getReference(TableNews.DATENEWS);
+    DatabaseReference myAuthor = database.getReference(TableNews.AUTHOR);
 
     public NewsDAO(Context context){
 
-        banco = new DBHelper(context);
+        dataBase = new DBHelper(context);
     }
 
 
@@ -35,7 +48,7 @@ public class NewsDAO {
         ContentValues values;
         long result;
 
-        db = banco.getWritableDatabase();
+        db = dataBase.getWritableDatabase();
         values = new ContentValues();
         values.put(TableNews.TITLE, title);
         values.put(TableNews.NEWS, news);
@@ -45,7 +58,6 @@ public class NewsDAO {
 
         result = db.insert(TableNews.NAME, null, values);
         db.close();
-
 
         if (result ==-1)
             return "Erro ao inserir registro";
@@ -57,8 +69,9 @@ public class NewsDAO {
     public List<News> newsLoad(){
 
         List<News> newsList = new ArrayList<>();
-        db = banco.getReadableDatabase();
-        Cursor cursor = db.query(TableNews.NAME, new String[]{"*"}, null, null, null, null, null, null);
+        db = dataBase.getReadableDatabase();
+        String orderBy = TableNews.DATENEWS + " DESC";
+        Cursor cursor = db.query(TableNews.NAME, new String[]{"*"}, null, null, null, null, orderBy, null);
 
 
         if(cursor!=null && cursor.moveToFirst()){
@@ -86,10 +99,10 @@ public class NewsDAO {
 
         List<News> newsList = new ArrayList<>();
 
-        String where = TableNews.NAME + " LIKE ?";
+        String where = TableNews.TITLE + " LIKE ?";
         String[] whereArgs = {"%"+newsTitle+"%"};
 
-        db = banco.getReadableDatabase();
+        db = dataBase.getReadableDatabase();
         Cursor cursor = db.query(TableNews.NAME, new String[]{"*"}, where, whereArgs, null, null, null, null);
 
 
@@ -118,7 +131,7 @@ public class NewsDAO {
         String where = TableNews.ID + " = ?";
         String[] whereArgs = {String.valueOf(id)};
 
-        db = banco.getReadableDatabase();
+        db = dataBase.getReadableDatabase();
         Cursor cursor = db.query(TableNews.NAME, new String[]{"*"}, where, whereArgs, null, null, null, null);
 
 
@@ -140,12 +153,12 @@ public class NewsDAO {
         return newsList;
     }
 
-    public void recordsLoad(int id, String title, String news, String author){
+    public void dataAlter(int id, String title, String news, String author){
 
         ContentValues values;
         String where;
 
-        db = banco.getWritableDatabase();
+        db = dataBase.getWritableDatabase();
 
         where = TableNews.ID + "=" + id;
 
@@ -160,13 +173,13 @@ public class NewsDAO {
 
 
     }
-    public void recordsDelete(int id){
+    public void dataDelete(int id){
 
         String where = TableNews.ID + "=" + id;
-        db = banco.getReadableDatabase();
+        db = dataBase.getReadableDatabase();
         db.delete(TableNews.NAME,where,null);
         db.close();
     }
 
-
 }
+*/

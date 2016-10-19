@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.example.alianza.database.table.TableMatch;
 import com.example.alianza.database.table.TableNews;
 import com.example.alianza.pojo.Match;
+import com.example.alianza.pojo.News;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by andre on 09/10/16.
  */
-
+/*
 public class MatchDAO {
 
     private SQLiteDatabase db;
@@ -54,11 +55,12 @@ public class MatchDAO {
     }
 
 
-    public List<Match> newsLoad(){
+    public List<Match> matchesLoad(){
 
         List<Match> matches = new ArrayList<>();
         db = dataBase.getReadableDatabase();
-        Cursor cursor = db.query(TableMatch.NAME, new String[]{"*"}, null, null, null, null, null, null);
+        String orderBy = TableMatch.ID + " DESC";
+        Cursor cursor = db.query(TableMatch.NAME, new String[]{"*"}, null, null, null, null, orderBy, null);
 
 
         if(cursor!=null && cursor.moveToFirst()){
@@ -82,6 +84,35 @@ public class MatchDAO {
         return matches;
     }
 
+    public List<Match> matchLoadByOpponent(String matchOpponent){
+
+        List<Match> matches = new ArrayList<>();
+
+        String where = TableMatch.OPPONENTTEAM + " LIKE ?";
+        String[] whereArgs = {"%"+matchOpponent+"%"};
+
+        db = dataBase.getReadableDatabase();
+        Cursor cursor = db.query(TableMatch.NAME, new String[]{"*"}, where, whereArgs, null, null, null, null);
+
+
+        if(cursor!=null && cursor.moveToFirst()){
+            while (!cursor.isAfterLast()){
+                Match match = new Match();
+                match.setId(cursor.getInt(cursor.getColumnIndex(TableMatch.ID)));
+                match.setDateOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.DATEOFMATCH)));
+                match.setHourOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.HOUROFMATCH)));
+                match.setOpponentTeam(cursor.getString(cursor.getColumnIndex(TableMatch.OPPONENTTEAM)));
+                match.setDescription(cursor.getString(cursor.getColumnIndex(TableMatch.DESCRIPTION)));
+                match.setPlaceOfMatch(cursor.getString(cursor.getColumnIndex(TableMatch.PLACEOFMATCH)));
+                matches.add(match);
+                cursor.moveToNext();
+            }
+            cursor.close();
+        }
+
+        db.close();
+        return matches;
+    }
 
     public List<Match> newsLoadByID(int id){
 
@@ -113,7 +144,7 @@ public class MatchDAO {
         return matches;
     }
 
-    public void recordsLoad(int id, String dateOfMatch,String hourOfMatch, String opponent, String description, String placeOfMatch){
+    public void dataAlter(int id, String dateOfMatch,String hourOfMatch, String opponent, String description, String placeOfMatch){
 
         ContentValues values;
         String where;
@@ -134,7 +165,7 @@ public class MatchDAO {
 
 
     }
-    public void recordsDelete(int id){
+    public void dataDelete(int id){
 
         String where = TableMatch.ID + "=" + id;
         db = dataBase.getReadableDatabase();
@@ -144,4 +175,4 @@ public class MatchDAO {
 
 
 
-}
+}*/

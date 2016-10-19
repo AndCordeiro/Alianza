@@ -30,6 +30,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     protected List<Player> mPlayer;
     protected PlayerAdapter.OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
+    private Context context;
 
 
     public PlayerAdapter(Context context, List<Player> player) {
@@ -51,7 +52,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
         //holder.photo.set(player.getPhoto());
         holder.player.setText(player.getPlayer());
-        holder.age.setText(DateUtils.getAge(player.getBirth()) + " " + "");
+        holder.age.setText(DateUtils.getAge(player.getBirth()) + " " + holder.itemView.getContext().getString(R.string.years));
 
 
     }

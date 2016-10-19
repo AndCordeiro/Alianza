@@ -10,8 +10,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.alianza.R;
-import com.example.alianza.database.NewsDAO;
+import com.example.alianza.firebase.FireBaseInsert;
+import com.example.alianza.pojo.News;
 import com.example.alianza.utils.DateUtils;
+
+import java.util.Calendar;
 
 public class RegisterCreateNewsActivity extends AppCompatActivity {
 
@@ -33,7 +36,6 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
         author = (EditText) findViewById((R.id.editTextAuthorNews));
         edNews = (EditText) findViewById(R.id.editTextNews);
 
-
     }
 
     @Override
@@ -48,22 +50,28 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                NewsDAO newsDAO = new NewsDAO(getBaseContext());
+               // NewsDAO newsDAO = new NewsDAO(getBaseContext());
 
 
                 String titleString = title.getText().toString();
                 String authorString = author.getText().toString();
                 String newsString = edNews.getText().toString();
-                String resultado;
+
+                //String resultado;
 
 
 
                 if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
 
-                    resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
+                  //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
 
-                    Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+                    News news = new News(titleString, newsString, authorString, DateUtils.getDate("dd/MM/yyyy"));
+
+                    FireBaseInsert f = new FireBaseInsert();
+                    f.insertData(news);
+
+                   // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
                     finish();
 

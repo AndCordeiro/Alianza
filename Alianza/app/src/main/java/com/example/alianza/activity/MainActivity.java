@@ -1,20 +1,16 @@
 package com.example.alianza.activity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
-import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,22 +18,27 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.alianza.R;
 import com.example.alianza.adapters.MainAdapter;
-import com.example.alianza.adapters.PlayerAdapter;
-import com.example.alianza.database.PlayerDAO;
 import com.example.alianza.fragments.MatchFragment;
 import com.example.alianza.fragments.NewsFragment;
-import com.example.alianza.R;
 import com.example.alianza.fragments.PlayerFragment;
-import com.example.alianza.pojo.Player;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
 
     final int newsTabs = 0;
     final int teamTabs = 1;
     final int matchTabs = 2;
     private int position;
     private DrawerLayout mDrawerLayout;
+
+
+    public OnClickSearchPlayer onClickSearchPlayer;
+    public OnClickSearchNews onClickSearchNews;
+    public OnClickSearchMatch onClickSearchMatch;
+
+
+
 
 
     @Override
@@ -61,13 +62,14 @@ public class MainActivity extends AppCompatActivity{
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
+
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
-            VectorDrawableCompat indicator =
+            /*VectorDrawableCompat indicator =
                     VectorDrawableCompat.create(getResources(), R.drawable.ic_menu_black_24dp, getTheme());
-            indicator.setTint(ResourcesCompat.getColor(getResources(), R.color.colorWhite, getTheme()));
-            supportActionBar.setHomeAsUpIndicator(indicator);
+            indicator.setTint(ResourcesCompat.getColor(getResources(), R.color.colorWhite, getTheme()));*/
+            supportActionBar.setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_black_24dp, getTheme()));
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
@@ -149,6 +151,8 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+
+
     }
 
 
@@ -174,40 +178,21 @@ public class MainActivity extends AppCompatActivity{
                 // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
 
 
-                if (s.length() >= 3) {
+                if (getPosition() == newsTabs) {
 
-                    if (getPosition() == newsTabs) {
+                    onClickSearchNews.onItemClickSearch(s);
 
-                        //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));                        startActivity(intent);
-                        System.out.println(" Pesquisa news");
+                } else if (getPosition() == teamTabs) {
 
-                    } else if (getPosition() == teamTabs) {
+                    onClickSearchPlayer.onItemClickSearch(s);
 
-                        //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));
-                        System.out.println(" Pesquisa team");
-
-                    } else {
-
-                        //lista.setAdapter(new AdapterLivros(MenuActivity.this, new LivroDAO(MenuActivity.this).carregaLivrosByTitle(s)));;
-                        System.out.println(" Pesquisa match");
-
-                    }
                 } else {
 
-                    if (getPosition() == newsTabs) {
+                    onClickSearchMatch.onItemClickSearch(s);
 
-                        //setLivros();
-
-                    } else if (getPosition() == teamTabs) {
-
-                        //setLivros();
-
-                    } else {
-
-                        //setLivros();
-
-                    }
                 }
+
+
                 return false;
             }
         });
@@ -237,6 +222,9 @@ public class MainActivity extends AppCompatActivity{
         } else if (id == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
+
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -249,6 +237,30 @@ public class MainActivity extends AppCompatActivity{
         this.position = position;
     }
 
+
+    public void setOnClickSearchPlayer(OnClickSearchPlayer onClickSearchPlayer) {
+        this.onClickSearchPlayer = onClickSearchPlayer;
+    }
+
+    public void setOnClickSearchNews(OnClickSearchNews onClickSearchNews) {
+        this.onClickSearchNews = onClickSearchNews;
+    }
+
+    public void setOnClickSearchMatch(OnClickSearchMatch onClickSearchMatch) {
+        this.onClickSearchMatch = onClickSearchMatch;
+    }
+
+    public interface OnClickSearchPlayer {
+        void onItemClickSearch(String query);
+    }
+
+    public interface OnClickSearchNews {
+        void onItemClickSearch(String query);
+    }
+
+    public interface OnClickSearchMatch {
+        void onItemClickSearch(String query);
+    }
 
 
 }

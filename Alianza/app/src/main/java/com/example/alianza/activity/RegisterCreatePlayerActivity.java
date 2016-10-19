@@ -21,7 +21,9 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.alianza.R;
-import com.example.alianza.database.PlayerDAO;
+import com.example.alianza.firebase.FireBaseInsert;
+import com.example.alianza.pojo.Match;
+import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
 
 public class RegisterCreatePlayerActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -120,7 +122,7 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                PlayerDAO playerDAO = new PlayerDAO(getBaseContext());
+               // PlayerDAO playerDAO = new PlayerDAO(getBaseContext());
 
 
                 String birthString = birth.getText().toString();
@@ -128,15 +130,20 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
                 String descriptionString = description.getText().toString();
                 String positionString = position.getText().toString();
                 //String photoString = ;
-                String resultado;
+                //String resultado;
 
 
                 if (birthString != null && !birthString.isEmpty() && !birthString.equals("") && playerString != null && !playerString.isEmpty() && !playerString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && positionString != null && !positionString.isEmpty() && !positionString.equals("")) {
 
 
-                    resultado = playerDAO.dataInsert(DateUtils.formatDate(birthString, DateUtils.DATE_BR, DateUtils.DATE_DB), playerString, descriptionString, positionString, null);
+                    //resultado = playerDAO.dataInsert(DateUtils.formatDate(birthString, DateUtils.DATE_BR, DateUtils.DATE_DB), playerString, descriptionString, positionString, null);
 
-                    Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+
+                    Player player = new Player(birthString, playerString, descriptionString, positionString, null);
+
+                    FireBaseInsert f = new FireBaseInsert();
+                    f.insertData(player);
 
                     finish();
 
@@ -153,13 +160,6 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        System.out.println("Resta");
-
-        return true;
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

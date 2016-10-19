@@ -78,10 +78,6 @@ public class DateUtils {
         return dateFormat.format(cal.getTime());
     }
 
-    public static String getAge(String dateBirth, String mask) {
-
-        return null;
-    }
 
     public static String getAge(String dateBirth) {
 

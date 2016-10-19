@@ -9,42 +9,38 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.alianza.R;
+import com.example.alianza.activity.MainActivity;
 import com.example.alianza.activity.VisualizationMatchActivity;
-import com.example.alianza.activity.VisualizationNewsActivity;
 import com.example.alianza.adapters.MatchAdapter;
-import com.example.alianza.adapters.NewsAdapter;
-import com.example.alianza.database.MatchDAO;
-import com.example.alianza.database.NewsDAO;
 import com.example.alianza.pojo.Match;
-import com.example.alianza.pojo.News;
 
 /**
  * Created by andre on 09/10/16.
  */
 
-public class MatchFragment extends Fragment implements MatchAdapter.OnClickListener, MatchAdapter.OnLongClickListener{
+public class MatchFragment extends Fragment implements MatchAdapter.OnClickListener, MatchAdapter.OnLongClickListener, MainActivity.OnClickSearchMatch{
 
     RecyclerView recyclerView;
-    MatchDAO matchDAO;
+   // MatchDAO matchDAO;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_match, container, false);
-        MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).newsLoad());
-        matchAdapter.setOnClickListener(this);
-        matchAdapter.setOnLongClickListener(this);
+        //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
+        //matchAdapter.setOnClickListener(this);
+        //matchAdapter.setOnLongClickListener(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        recyclerView.setAdapter(matchAdapter);
+        //recyclerView.setAdapter(matchAdapter);
         recyclerView.setHasFixedSize(true);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        MainActivity mainActivity = (MainActivity)getActivity();
+        mainActivity.setOnClickSearchMatch(this);
 
         return view;
     }
@@ -53,10 +49,10 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
     public void onResume() {
         super.onResume();
 
-        MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).newsLoad());
-        matchAdapter.setOnClickListener(this);
-        matchAdapter.setOnLongClickListener(this);
-        recyclerView.setAdapter(matchAdapter);
+        //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
+        //matchAdapter.setOnClickListener(this);
+        //matchAdapter.setOnLongClickListener(this);
+        //recyclerView.setAdapter(matchAdapter);
 
     }
 
@@ -64,7 +60,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
     public void onItemClickListener(Match match) {
 
         Intent intent = new Intent(this.getActivity(), VisualizationMatchActivity.class);
-        intent.putExtra(VisualizationMatchActivity.ID, match.getId());
+        //intent.putExtra(VisualizationMatchActivity.ID);
         startActivity(intent);
 
     }
@@ -77,8 +73,8 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
         builder.setPositiveButton(getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                matchDAO = new MatchDAO(getContext());
-                matchDAO.recordsDelete(match.getId());
+                //matchDAO = new MatchDAO(getContext());
+                //matchDAO.dataDelete(match.getId());
                 onResume();
 
             }
@@ -95,5 +91,22 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
                 .show();
 
         return false;
+    }
+
+    @Override
+    public void onItemClickSearch(String query) {
+
+        System.out.println("Match");
+        if (query.length() >= 3) {
+
+            //recyclerView.setAdapter(new MatchAdapter(getActivity(), new MatchDAO(getActivity()).matchLoadByOpponent(query)));
+
+        }else{
+
+            //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
+            //recyclerView.setAdapter(matchAdapter);
+
+        }
+
     }
 }
