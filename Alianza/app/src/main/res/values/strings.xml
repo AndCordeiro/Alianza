@@ -36,9 +36,10 @@
     <string name="menu_edit">Edit</string>
 
     <string name="menu_drawer_settings">Settings</string>
-
+    <string name="menu_drawer_logout">Log Out</string>
 
     <string name="action_settings">Settings</string>
+    <string name="action_logout">Log Out</string>
 
 
     <string name="years">Years</string>

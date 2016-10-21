@@ -1,12 +1,14 @@
 package com.example.alianza.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by andre on 09/10/16.
  */
 
-public class Match {
+public class Match implements Serializable{
 
-    //private int id;
+    private String id;
     private String dateOfMatch;
     private String hourOfMatch;
     private String opponentTeam;
@@ -26,14 +28,21 @@ public class Match {
 
     }
 
-    /*public int getId() {
+    public Match(){
+
+
+
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-*/
+
     public String getDateOfMatch() {
         return dateOfMatch;
     }
@@ -77,7 +86,8 @@ public class Match {
     @Override
     public String toString() {
         return "Match{" +
-                "dateOfMatch='" + dateOfMatch + '\'' +
+                "id='" + id + '\'' +
+                ", dateOfMatch='" + dateOfMatch + '\'' +
                 ", hourOfMatch='" + hourOfMatch + '\'' +
                 ", opponentTeam='" + opponentTeam + '\'' +
                 ", placeOfMatch='" + placeOfMatch + '\'' +

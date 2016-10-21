@@ -1,6 +1,7 @@
 package com.example.alianza.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,16 +14,23 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.adapters.MainAdapter;
 import com.example.alianza.fragments.MatchFragment;
 import com.example.alianza.fragments.NewsFragment;
 import com.example.alianza.fragments.PlayerFragment;
+import com.github.siyamed.shapeimageview.CircularImageView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,8 +45,11 @@ public class MainActivity extends AppCompatActivity {
     public OnClickSearchNews onClickSearchNews;
     public OnClickSearchMatch onClickSearchMatch;
 
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
-
+    CircularImageView circularImageView;
+    TextView profileName;
 
 
     @Override
@@ -61,6 +72,17 @@ public class MainActivity extends AppCompatActivity {
         // Create Navigation drawer and inlfate layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+
+        View view = navigationView.getHeaderView(0);
+
+        circularImageView = (CircularImageView) view.findViewById(R.id.profile_picture);
+
+        Picasso.with(this).load(firebaseUser.getPhotoUrl()).into(circularImageView);
+
+        profileName = (TextView) view.findViewById(R.id.profile_name);
+        profileName.setText(firebaseUser.getDisplayName());
 
 
         // Adding menu icon to Toolbar
@@ -69,9 +91,10 @@ public class MainActivity extends AppCompatActivity {
             /*VectorDrawableCompat indicator =
                     VectorDrawableCompat.create(getResources(), R.drawable.ic_menu_black_24dp, getTheme());
             indicator.setTint(ResourcesCompat.getColor(getResources(), R.color.colorWhite, getTheme()));*/
-            supportActionBar.setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_black_24dp, getTheme()));
+            supportActionBar.setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_white_24dp, getTheme()));
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
+
 
         // Set behavior of Navigation drawer
         navigationView.setNavigationItemSelectedListener(
@@ -84,8 +107,13 @@ public class MainActivity extends AppCompatActivity {
 
                         // TODO: handle navigation
 
-                        // Closing drawer on item click
-                        mDrawerLayout.closeDrawers();
+                        FirebaseAuth.getInstance().signOut();
+
+
+                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+
                         return true;
                     }
                 });
@@ -152,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_search, menu);
@@ -197,6 +225,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
         return true;
     }
 
@@ -216,13 +246,13 @@ public class MainActivity extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == android.R.id.home) {
+        if (id == android.R.id.home) {
+
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
-
 
 
         return super.onOptionsItemSelected(item);

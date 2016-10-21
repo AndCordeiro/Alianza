@@ -37,45 +37,6 @@
 
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputDateOfMatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="#000000">
-
-            <EditText
-                android:id="@+id/editTextDateOfMatch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/date_match"
-                android:maxLines="1"
-                android:textColor="@color/colorBlack"
-                android:onClick="showDatePickerDialog"
-                android:editable="false"
-                android:focusable="false"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputHourOfMatch"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="#000000">
-
-            <EditText
-                android:id="@+id/editTextHourOfMatch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hour_match"
-                android:maxLines="1"
-                android:textColor="@color/colorBlack"
-                android:onClick="showTimePickerDialog"
-                android:editable="false"
-                android:focusable="false"/>
-
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputOpponentTeam"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -120,6 +81,44 @@
                 android:hint="@string/description_match"
                 android:maxLines="4"/>
 
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputDateOfMatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+
+            <EditText
+                android:id="@+id/editTextDateOfMatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/date_match"
+                android:maxLines="1"
+                android:textColor="@color/colorBlack"
+                android:onClick="showDatePickerDialog"
+                android:editable="false"
+                android:focusable="false"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputHourOfMatch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+
+            <EditText
+                android:id="@+id/editTextHourOfMatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hour_match"
+                android:maxLines="1"
+                android:textColor="@color/colorBlack"
+                android:onClick="showTimePickerDialog"
+                android:editable="false"
+                android:focusable="false"/>
 
         </android.support.design.widget.TextInputLayout>
 

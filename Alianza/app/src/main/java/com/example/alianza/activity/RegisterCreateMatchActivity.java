@@ -2,6 +2,7 @@ package com.example.alianza.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -17,19 +18,19 @@ import android.widget.Toast;
 import com.example.alianza.R;
 import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.Match;
-import com.example.alianza.pojo.News;
 import com.example.alianza.utils.DateUtils;
 import com.example.alianza.utils.TimeUtils;
 
 public class RegisterCreateMatchActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener
         , TimePickerDialog.OnTimeSetListener {
 
-    EditText dateOfMatch;
-    EditText hourOfMatch;
-    EditText opponentTeam;
-    EditText placeOfMatch;
-    EditText description;
-
+    private EditText dateOfMatch;
+    private EditText hourOfMatch;
+    private EditText opponentTeam;
+    private EditText placeOfMatch;
+    private EditText description;
+    private int id = 0;
+    Match matchVisualization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,16 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
         opponentTeam = (EditText) findViewById(R.id.editTextOpponentTeam);
         placeOfMatch = (EditText) findViewById(R.id.editTextPlaceOfMatch);
         description = (EditText) findViewById(R.id.editTextDescriptionMatch);
+
+
+        Intent intent = getIntent();
+        matchVisualization = (Match) intent.getSerializableExtra(VisualizationMatchActivity.MATCH);
+        if (matchVisualization != null) {
+
+            id = 1;
+
+            setMatch(matchVisualization);
+        }
 
     }
 
@@ -99,23 +110,59 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
                 //String resultado;
 
 
-                if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
+                if (id != 1) {
+
+                    if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
 
 
-                    //resultado = matchDAO.dataInsert(DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_BR, DateUtils.DATE_DB), hourOfMatchString, Match.TEAM, opponentTeamString, descriptionString, placeOfMatchString);
+                        //resultado = matchDAO.dataInsert(DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_BR, DateUtils.DATE_DB), hourOfMatchString, Match.TEAM, opponentTeamString, descriptionString, placeOfMatchString);
 
-                   // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
-                    Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
+                        Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
 
-                    FireBaseInsert f = new FireBaseInsert();
-                    f.insertData(match);
+                        FireBaseInsert f = new FireBaseInsert();
+                        f.insertData(match);
 
-                    finish();
+                        finish();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+                    }
 
                 } else {
 
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+
+                    if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
+
+
+                        //resultado = matchDAO.dataInsert(DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_BR, DateUtils.DATE_DB), hourOfMatchString, Match.TEAM, opponentTeamString, descriptionString, placeOfMatchString);
+
+                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+
+                        Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
+
+
+                        match.setId(matchVisualization.getId());
+
+                        FireBaseInsert f = new FireBaseInsert();
+                        f.updateData(match);
+
+                        Intent intent = new Intent(RegisterCreateMatchActivity.this, VisualizationMatchActivity.class);
+                        intent.putExtra(VisualizationMatchActivity.MATCH, match);
+
+                        startActivity(intent);
+
+                        finish();
+
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+                    }
+
+
                 }
 
                 return false;
@@ -127,5 +174,14 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
     }
 
 
+    public void setMatch(Match match) {
 
+        dateOfMatch.setText(match.getDateOfMatch());
+        hourOfMatch.setText(match.getHourOfMatch());
+        opponentTeam.setText(match.getOpponentTeam());
+        placeOfMatch.setText(match.getPlaceOfMatch());
+        description.setText(match.getDescription());
+
+
+    }
 }

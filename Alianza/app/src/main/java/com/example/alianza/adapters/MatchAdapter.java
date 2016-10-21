@@ -1,6 +1,7 @@
 package com.example.alianza.adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,10 @@ import android.widget.TextView;
 import com.example.alianza.R;
 import com.example.alianza.pojo.Match;
 import com.example.alianza.pojo.News;
+import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.List;
 
@@ -18,7 +22,8 @@ import java.util.List;
  * Created by andre on 10/10/16.
  */
 
-public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder>{
+public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> implements
+        GoogleApiClient.OnConnectionFailedListener{
 
     protected List<Match> mMatch;
     protected OnClickListener onClickListener;
@@ -32,15 +37,19 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder>{
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+
+        MatchAdapter.ViewHolder viewHolder = null;
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_match, parent, false);
+        viewHolder = new MatchAdapter.ViewHolder(layoutView, mMatch);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
 
-        final Match match = mMatch.get(position);
-        holder.dateOfMatch.setText(DateUtils.formatDate(match.getDateOfMatch(), DateUtils.DATE_DB, DateUtils.DATE_BR));
+        Match match = mMatch.get(position);
+        holder.dateOfMatch.setText(match.getDateOfMatch());
         holder.hourOfMatch.setText(match.getHourOfMatch());
         holder.opponentTeam.setText(match.getOpponentTeam());
         holder.placeOfMatch.setText(match.getPlaceOfMatch());
@@ -51,6 +60,11 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder>{
     @Override
     public int getItemCount() {
         return mMatch.size();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
     public interface OnClickListener {
@@ -79,9 +93,10 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder>{
 
 
 
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.adapter_match, parent, false));
+        public ViewHolder(View itemView, List<Match> matchList) {
+            super(itemView);
 
+            mMatch = matchList;
             dateOfMatch = (TextView) itemView.findViewById(R.id.dateMatch);
             hourOfMatch = (TextView) itemView.findViewById(R.id.hourMatch);
             opponentTeam = (TextView) itemView.findViewById(R.id.nameTeam2);

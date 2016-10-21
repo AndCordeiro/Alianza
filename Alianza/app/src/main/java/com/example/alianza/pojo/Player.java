@@ -1,15 +1,16 @@
 package com.example.alianza.pojo;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 /**
  * Created by andre on 09/10/16.
  */
 
-public class Player {
+public class Player implements Serializable{
 
 
-    //private int id;
+    private String id;
     private String birth;
     private String player;
     private String description;
@@ -27,16 +28,20 @@ public class Player {
 
     }
 
+    public Player(){
 
 
-    /*public int getId() {
+    }
+
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-*/
+
     public String getBirth() {
         return birth;
     }
@@ -81,7 +86,8 @@ public class Player {
     @Override
     public String toString() {
         return "Player{" +
-                "birth='" + birth + '\'' +
+                "id='" + id + '\'' +
+                ", birth='" + birth + '\'' +
                 ", player='" + player + '\'' +
                 ", description='" + description + '\'' +
                 ", position='" + position + '\'' +

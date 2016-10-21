@@ -1,5 +1,6 @@
 package com.example.alianza.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.alianza.R;
+import com.example.alianza.pojo.Match;
 
 public class VisualizationMatchActivity extends AppCompatActivity {
 
@@ -18,9 +20,11 @@ public class VisualizationMatchActivity extends AppCompatActivity {
     TextView textViewOpponentTeam;
     TextView textViewPlaceOfMatch;
     TextView textViewDescriptionMatch;
+    Match match;
 
 
-    public static final String ID = "match";
+
+    public static final String MATCH = "match";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +43,12 @@ public class VisualizationMatchActivity extends AppCompatActivity {
         textViewDescriptionMatch = (TextView) findViewById(R.id.textViewDescriptionMatch);
 
 
-        setMatch(getIntent().getIntExtra(ID, 0));
 
 
+        Intent intent = getIntent();
+        match = (Match) intent.getSerializableExtra(MATCH);
+
+        setMatch(match);
 
     }
 
@@ -54,13 +61,19 @@ public class VisualizationMatchActivity extends AppCompatActivity {
 
         MenuItem myActionMenuItem = menu.findItem(R.id.edit);
 
+
+
         myActionMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
 
+                Intent intent = new Intent(VisualizationMatchActivity.this, RegisterCreateMatchActivity.class);
+                intent.putExtra(VisualizationMatchActivity.MATCH, match);
 
-                System.out.println("Teste hahaha");
+                startActivity(intent);
+
+                finish();
 
                 return false;
             }
@@ -71,18 +84,20 @@ public class VisualizationMatchActivity extends AppCompatActivity {
     }
 
 
-    public void setMatch(int id){
-/*
+    public void setMatch(Match match){
 
+        /*
         MatchDAO matchDAO = new MatchDAO(getBaseContext());
         List<Match> match = matchDAO.newsLoadByID(id);;
+        */
 
-        textViewDateOfMatch.setText(DateUtils.formatDate(match.get(0).getDateOfMatch(),DateUtils.DATE_DB, DateUtils.DATE_BR));
-        textViewHourOfMatch.setText(match.get(0).getHourOfMatch());
-        textViewOpponentTeam.setText(match.get(0).getOpponentTeam());
-        textViewPlaceOfMatch.setText(match.get(0).getPlaceOfMatch());
-        textViewDescriptionMatch.setText(match.get(0).getDescription());
-*/
+        textViewDateOfMatch.setText(match.getDateOfMatch());
+        textViewHourOfMatch.setText(match.getHourOfMatch());
+        textViewOpponentTeam.setText(match.getOpponentTeam());
+        textViewPlaceOfMatch.setText(match.getPlaceOfMatch());
+        textViewDescriptionMatch.setText(match.getDescription());
+
     }
+
 
 }

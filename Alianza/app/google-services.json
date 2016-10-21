@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "74534135200-sj5n1frgguobm5lgahaaobaac790uoqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alianza",
+            "certificate_hash": "E61AD8C6554090752387ECD2AF4E65E3CA39AC64"
+          }
+        },
+        {
           "client_id": "74534135200-sv80nb85kkhm1hafljro71qrb3o5fd7e.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +37,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "74534135200-sv80nb85kkhm1hafljro71qrb3o5fd7e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2

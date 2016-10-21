@@ -5,32 +5,30 @@ package com.example.alianza.adapters;
  */
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alianza.R;
-import com.example.alianza.pojo.Match;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * Adapter to display recycler view.
  */
-public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
+public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> implements
+        GoogleApiClient.OnConnectionFailedListener {
 
     protected List<Player> mPlayer;
     protected PlayerAdapter.OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
-    private Context context;
 
 
     public PlayerAdapter(Context context, List<Player> player) {
@@ -41,14 +39,18 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()), parent);
+
+        PlayerAdapter.ViewHolder viewHolder = null;
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_player, parent, false);
+        viewHolder = new PlayerAdapter.ViewHolder(layoutView, mPlayer);
+        return viewHolder;
+
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        final Player player = mPlayer.get(position);
-
+        Player player = mPlayer.get(position);
 
         //holder.photo.set(player.getPhoto());
         holder.player.setText(player.getPlayer());
@@ -60,6 +62,11 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     @Override
     public int getItemCount() {
         return mPlayer.size();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
 
@@ -86,9 +93,10 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
         public TextView age;
 
 
-        public ViewHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.adapter_player, parent, false));
+        public ViewHolder(View itemView, List<Player> playerList) {
+            super(itemView);
 
+            mPlayer = playerList;
             //photo = (ImageView) itemView.findViewById(R.id.picturePlayer);
             player = (TextView) itemView.findViewById(R.id.name_player);
             age = (TextView) itemView.findViewById(R.id.age_player);

@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/navheader_height"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/alianza"
     android:orientation="vertical"
-    android:padding="@dimen/md_keylines">
+    android:padding="@dimen/md_keylines"
+    android:layout_marginTop="10dp">
+
+    <com.github.siyamed.shapeimageview.CircularImageView
+        android:id="@+id/profile_picture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_white_24dp"
+        android:layout_gravity="left"
+        app:siBorderWidth="6dp"
+        app:siBorderColor="@color/colorAccent"/>
+
+
+    <android.support.v4.widget.Space
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@+id/profile_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/md_purple_A700"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
 </LinearLayout>

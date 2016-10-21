@@ -1,5 +1,6 @@
 package com.example.alianza.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.alianza.R;
+import com.example.alianza.pojo.News;
 
 public class VisualizationNewsActivity extends AppCompatActivity {
 
@@ -16,8 +18,9 @@ public class VisualizationNewsActivity extends AppCompatActivity {
     TextView textViewNews;
     TextView textViewAuthorNews;
     TextView textViewDateNews;
+    News news;
 
-    public static final String ID = "news";
+    public static final String NEWS = "news";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,12 @@ public class VisualizationNewsActivity extends AppCompatActivity {
         textViewAuthorNews = (TextView) findViewById(R.id.textViewAuthorNews);
         textViewDateNews = (TextView) findViewById(R.id.textViewDateNews);
 
-        setNews(getIntent().getIntExtra(ID, 0));
+
+        Intent intent = getIntent();
+        news = (News) intent.getSerializableExtra(NEWS);
+
+
+        setNews(news);
 
     }
 
@@ -52,9 +60,12 @@ public class VisualizationNewsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
+                Intent intent = new Intent(VisualizationNewsActivity.this, RegisterCreateNewsActivity.class);
+                intent.putExtra(VisualizationNewsActivity.NEWS, news);
 
+                startActivity(intent);
 
-                System.out.println("Teste hahaha");
+                finish();
 
                 return false;
             }
@@ -64,15 +75,17 @@ public class VisualizationNewsActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setNews(int id) {
+    public void setNews(News news) {
 
         /*NewsDAO newsDAO = new NewsDAO(getBaseContext());
         List<News> news = newsDAO.newsLoadByID(id);;
+        */
 
-        textViewTitleNews.setText(news.get(0).getTitle());
-        textViewNews.setText(news.get(0).getNews());
-        textViewAuthorNews.setText(news.get(0).getAuthor());
-        textViewDateNews.setText(DateUtils.formatDate(news.get(0).getDateNews(), DateUtils.DATE_DB, DateUtils.DATE_BR));
-*/
+
+        textViewTitleNews.setText(news.getTitle());
+        textViewNews.setText(news.getNews());
+        textViewAuthorNews.setText(news.getAuthor());
+        textViewDateNews.setText(news.getDateNews());
+
     }
 }

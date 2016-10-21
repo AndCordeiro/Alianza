@@ -1,5 +1,6 @@
 package com.example.alianza.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,6 +10,8 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.alianza.R;
+import com.example.alianza.pojo.News;
+import com.example.alianza.pojo.Player;
 
 public class VisualizationPlayerActivity extends AppCompatActivity {
 
@@ -17,9 +20,9 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
     TextView textViewPlayerBirth;
     TextView textViewPlayerPosition;
     TextView textViewPlayerDescription;
+    Player player;
 
-
-    public static final String ID = "player";
+    public static final String PLAYER = "player";
 
 
     @Override
@@ -37,7 +40,11 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
         textViewPlayerPosition = (TextView) findViewById(R.id.textViewPlayerPosition);
         textViewPlayerDescription = (TextView) findViewById(R.id.textViewPlayerDescription);
 
-        setPlayer(getIntent().getIntExtra(ID, 0));
+        Intent intent = getIntent();
+        player = (Player) intent.getSerializableExtra(PLAYER);
+
+
+        setPlayer(player);
     }
 
     @Override
@@ -52,9 +59,12 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
+                Intent intent = new Intent(VisualizationPlayerActivity.this, RegisterCreatePlayerActivity.class);
+                intent.putExtra(VisualizationPlayerActivity.PLAYER, player);
 
+                startActivity(intent);
 
-                System.out.println("Teste hahaha");
+                finish();
 
                 return false;
             }
@@ -64,15 +74,16 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
         return true;
     }
 
-    public void setPlayer(int id) {
+    public void setPlayer(Player player) {
 
         /*PlayerDAO playerDAO = new PlayerDAO(getBaseContext());
         List<Player> player = playerDAO.playersLoadByID(id);;
+        */
 
-        textViewPlayer.setText(player.get(0).getPlayer());
-        textViewPlayerBirth.setText(DateUtils.formatDate(player.get(0).getBirth(), DateUtils.DATE_DB, DateUtils.DATE_BR));
-        textViewPlayerPosition.setText(player.get(0).getPosition());
-        textViewPlayerDescription.setText(player.get(0).getDescription());
-*/
+        textViewPlayer.setText(player.getPlayer());
+        textViewPlayerBirth.setText(player.getBirth());
+        textViewPlayerPosition.setText(player.getPosition());
+        textViewPlayerDescription.setText(player.getDescription());
+
     }
 }

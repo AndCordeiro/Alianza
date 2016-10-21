@@ -1,12 +1,14 @@
 package com.example.alianza.pojo;
 
+import java.io.Serializable;
+
 /**
  * Created by andre on 09/10/16.
  */
 
-public class News {
+public class News  implements Serializable {
 
-    //private int id;
+    private String id;
     private String title;
     private String news;
     private String author;
@@ -23,15 +25,19 @@ public class News {
 
     }
 
-/*
-    public int getId() {
+    public News(){
+
+
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-*/
+
     public String getTitle() {
         return title;
     }
@@ -67,7 +73,8 @@ public class News {
     @Override
     public String toString() {
         return "News{" +
-                "title='" + title + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
                 ", news='" + news + '\'' +
                 ", author='" + author + '\'' +
                 ", dateNews='" + dateNews + '\'' +

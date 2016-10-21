@@ -26,21 +26,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         GoogleApiClient.OnConnectionFailedListener {
 
 
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-    }
-
-    public static class MessageViewHolder extends RecyclerView.ViewHolder {
-        public TextView messageTextView;
-        public TextView messengerTextView;
-
-        public MessageViewHolder(View v) {
-            super(v);
-            messageTextView = (TextView) itemView.findViewById(R.id.textViewNews);
-            messengerTextView = (TextView) itemView.findViewById(R.id.textViewNews);
-        }
-    }
 
     protected List<News> mNews;
     protected OnClickListener onClickListener;
@@ -76,6 +61,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
     @Override
     public int getItemCount() {
         return mNews.size();
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 
     public interface OnClickListener {
@@ -118,6 +108,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
                 @Override
                 public void onClick(View v) {
 
+
                     if (onClickListener != null) {
                         onClickListener.onItemClickListener(mNews.get(getAdapterPosition()));
 
@@ -128,6 +119,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
+
 
                     if (onLongClickListener != null) {
 

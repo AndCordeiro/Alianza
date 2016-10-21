@@ -1,5 +1,6 @@
 package com.example.alianza.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,14 +15,15 @@ import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.News;
 import com.example.alianza.utils.DateUtils;
 
-import java.util.Calendar;
-
 public class RegisterCreateNewsActivity extends AppCompatActivity {
 
 
     private EditText title;
     private EditText author;
     private EditText edNews;
+    private int id = 0;
+    News newsVisualization;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,15 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
         title = (EditText) findViewById(R.id.editTextTitleNews);
         author = (EditText) findViewById((R.id.editTextAuthorNews));
         edNews = (EditText) findViewById(R.id.editTextNews);
+
+        Intent intent = getIntent();
+        newsVisualization = (News) intent.getSerializableExtra(VisualizationNewsActivity.NEWS);
+        if (newsVisualization != null) {
+
+            id = 1;
+
+            setNews(newsVisualization);
+        }
 
     }
 
@@ -59,26 +70,62 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
 
                 //String resultado;
 
+                if (id != 1) {
+
+                    if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
 
-                if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
+                        //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
+
+                        News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
+
+                        FireBaseInsert f = new FireBaseInsert();
+                        f.insertData(news);
+
+                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+
+                        finish();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+                    }
 
 
-                  //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
+                }else{
 
-                    News news = new News(titleString, newsString, authorString, DateUtils.getDate("dd/MM/yyyy"));
+                    if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
-                    FireBaseInsert f = new FireBaseInsert();
-                    f.insertData(news);
 
-                   // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
+                        //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
 
-                    finish();
+                        News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
 
-                } else {
 
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+
+                        news.setId(newsVisualization.getId());
+
+                        FireBaseInsert f = new FireBaseInsert();
+                        f.updateData(news);
+
+
+                        Intent intent = new Intent(RegisterCreateNewsActivity.this, VisualizationNewsActivity.class);
+                        intent.putExtra(VisualizationNewsActivity.NEWS, news);
+
+                        startActivity(intent);
+
+                        finish();
+
+                    } else {
+
+                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
+                    }
+
+
+
                 }
+
+
 
                 return false;
             }
@@ -88,6 +135,14 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
         return true;
     }
 
+
+    public void setNews(News news) {
+
+        title.setText(news.getNews());
+        author.setText(news.getAuthor());
+        edNews.setText(news.getNews());
+
+    }
 
 
 }
