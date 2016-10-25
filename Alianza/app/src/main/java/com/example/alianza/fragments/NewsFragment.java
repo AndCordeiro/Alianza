@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +50,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news, container, false);
 
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
@@ -64,12 +69,13 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 if (s != null) {
+                    Log.e("Is Not Null", "onChildAdded: ");
                     if (!s.equals(dataSnapshot)) {
                         getAllNews(dataSnapshot);
                     }
                 } else {
-                    getAllNews(dataSnapshot);
-
+                    Log.e("Is Null", "onChildAdded: ");
+                     getAllNews(dataSnapshot);
                 }
 
 
@@ -126,6 +132,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
         newsAdapter.setOnClickListener(this);
         newsAdapter.setOnLongClickListener(this);
         news.setId(dataSnapshot.getKey());
+        Log.e("Teste: ", "getAllPlayer: " + news.toString());
         recyclerView.setAdapter(newsAdapter);
 
     }
@@ -190,12 +197,15 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
     }
 
     @Override
-    public void onItemClickSearch(String query) {
+    public void onItemClickSearch(final String query) {
+
 
 
         if (query.length() >= 3) {
-            System.out.println("News");
+
             //recyclerView.setAdapter(new NewsAdapter(getActivity(), new NewsDAO(getActivity()).newsLoadByTitle(query)));
+
+
 
         } else {
             System.out.println("News1");

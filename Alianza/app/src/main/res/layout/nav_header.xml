@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/navheader_height"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/alianza"
+    android:background="@drawable/bolas"
     android:orientation="vertical"
     android:padding="@dimen/md_keylines"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="15dp">
 
     <com.github.siyamed.shapeimageview.CircularImageView
         android:id="@+id/profile_picture"
@@ -26,9 +26,11 @@
 
     <TextView
         android:id="@+id/profile_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/md_purple_A700"
+        android:textAlignment="center"
+        android:background="@color/colorWhite"
         android:textSize="30dp"
         android:textStyle="bold" />
 

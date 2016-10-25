@@ -2,6 +2,7 @@ package com.example.alianza.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -61,19 +62,27 @@ public class VisualizationMatchActivity extends AppCompatActivity {
 
         MenuItem myActionMenuItem = menu.findItem(R.id.edit);
 
-
-
         myActionMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
+                if(MainActivity.isAdmin){
 
-                Intent intent = new Intent(VisualizationMatchActivity.this, RegisterCreateMatchActivity.class);
-                intent.putExtra(VisualizationMatchActivity.MATCH, match);
+                    Intent intent = new Intent(VisualizationMatchActivity.this, RegisterCreateMatchActivity.class);
+                    intent.putExtra(VisualizationMatchActivity.MATCH, match);
 
-                startActivity(intent);
+                    startActivity(intent);
 
-                finish();
+                    finish();
+
+
+                }else{
+
+                    Snackbar.make(findViewById(R.id.visualizationMatch_content), getResources().getString(R.string.not_permission), Snackbar.LENGTH_LONG)
+                            .show();
+
+                }
+
 
                 return false;
             }

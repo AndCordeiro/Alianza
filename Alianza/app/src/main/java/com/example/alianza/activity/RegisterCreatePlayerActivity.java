@@ -3,6 +3,9 @@ package com.example.alianza.activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -25,6 +28,8 @@ import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
+import com.google.firebase.storage.FirebaseStorage;
+import com.squareup.picasso.Picasso;
 
 public class RegisterCreatePlayerActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -55,6 +60,7 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
         description = (EditText) findViewById(R.id.editTextPlayerDescription);
         position = (EditText) findViewById(R.id.editTextPlayerPosition);
         photo = (ImageView) findViewById(R.id.picturePlayer);
+
 
 
         Intent intent = getIntent();
@@ -96,6 +102,7 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
                     public void onClick(DialogInterface dialog, int id) {
 
                         getGalery();
+
 
                     }
                 })
@@ -141,7 +148,7 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
                 String playerString = player.getText().toString();
                 String descriptionString = description.getText().toString();
                 String positionString = position.getText().toString();
-                //String photoString = ;
+
                 //String resultado;
 
                 if (id != 1) {
@@ -214,9 +221,15 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
         if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
 
 
+
+            Picasso.with(this).load(data.getData()).into(photo);
+
+
+
         } else if (requestCode == REQUEST_GALERY && resultCode == RESULT_OK) {
 
-
+System.out.print(data.getData().getPath());
+            photo.setImageURI(data.getData());
 
         }
     }

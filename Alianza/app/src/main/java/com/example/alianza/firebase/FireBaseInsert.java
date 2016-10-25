@@ -5,6 +5,8 @@ import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +21,17 @@ public class FireBaseInsert {
     public static final String NAME_NEWS = "news";
     public static final String NAME_PLAYER = "player";
     public static final String NAME_MATCH = "match";
+    public static final String NAME_USER = "user";
+
+    int id = 0;
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef = storage.getReferenceFromUrl("gs://alianza-43035.appspot.com");
+    StorageReference imagesRef = storageRef.child("images");
+    StorageReference spaceRef = storageRef.child("images/profile.jpg");
+
 
 
     public void insertData(News news) {
@@ -103,5 +115,34 @@ public class FireBaseInsert {
 
 
     }
+
+    public void insertImages(String fileName){
+
+        spaceRef = imagesRef.child(fileName);
+
+
+
+    }
+
+    public void insertAdmin(String id, String name) {
+
+
+        DatabaseReference myRef = database.getReference("admin");
+
+
+        myRef.child(id).setValue(name);
+
+    }
+
+    public void insertRequestAdmin(String id, String name) {
+
+
+        DatabaseReference myRef = database.getReference("request adimin");
+
+
+        myRef.child(id).setValue(name);
+
+    }
+
 
 }

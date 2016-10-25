@@ -1,10 +1,10 @@
 package com.example.alianza.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.GravityCompat;
@@ -23,13 +23,19 @@ import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.adapters.MainAdapter;
+import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.fragments.MatchFragment;
 import com.example.alianza.fragments.NewsFragment;
 import com.example.alianza.fragments.PlayerFragment;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Logger;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -47,15 +53,29 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private DatabaseReference databaseReference;
+    private FirebaseDatabase firebaseDatabase;
 
     CircularImageView circularImageView;
     TextView profileName;
-
+    public static boolean isAdmin = false;
+    public static boolean isRequestAdmin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        try {
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+            FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG);
+            Log.d("Firebase", FirebaseDatabase.getInstance().toString());
+        } catch (Exception e) {
+            Log.w("Firebase", "SetPresistenceEnabled:Fail" + FirebaseDatabase.getInstance().toString());
+            e.printStackTrace();
+        }
+
 
         // Adding Toolbar to Main screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,6 +104,29 @@ public class MainActivity extends AppCompatActivity {
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileName.setText(firebaseUser.getDisplayName());
 
+        //FireBaseInsert fireBaseInsert= new FireBaseInsert();
+        //fireBaseInsert.insertAdmin(firebaseUser.getUid(), firebaseUser.getDisplayName());
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("admin");
+
+        databaseReference.orderByKey().addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if (firebaseUser.getUid().equals(dataSnapshot.getValue().toString().substring(1, 29))) {
+
+                    isAdmin = true;
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
@@ -103,16 +146,88 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         // Set item in checked state
-                        menuItem.setChecked(true);
 
-                        // TODO: handle navigation
-
-                        FirebaseAuth.getInstance().signOut();
+                        menuItem.setCheckable(false);
 
 
-                        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
+                        if (menuItem.getTitle().equals(getResources().getText(R.string.action_admin))) {
+
+
+                            if (!isAdmin) {
+
+
+                                databaseReference = FirebaseDatabase.getInstance().getReference("request admin");
+
+                                databaseReference.orderByKey().addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                        if (firebaseUser.getUid().equals(dataSnapshot.getValue().toString().substring(1, 29))) {
+
+                                            isRequestAdmin = true;
+
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                                if (!isRequestAdmin) {
+
+                                    FireBaseInsert fireBaseInsert = new FireBaseInsert();
+                                    fireBaseInsert.insertAdmin(firebaseUser.getUid(), firebaseUser.getDisplayName());
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                    Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.send_request_permission), Snackbar.LENGTH_LONG)
+                                            .show();
+
+                                } else {
+
+                                    mDrawerLayout.closeDrawer(GravityCompat.START);
+                                    Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.request_permission), Snackbar.LENGTH_LONG)
+                                            .show();
+
+                                }
+
+
+                            } else {
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.admin_permission), Snackbar.LENGTH_LONG)
+                                        .show();
+
+                            }
+
+
+                        } else if (menuItem.getTitle().equals(getResources().getText(R.string.action_logout))) {
+
+                            FirebaseAuth.getInstance().signOut();
+
+
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            startActivity(intent);
+                            finish();
+
+                        } else if (menuItem.getTitle().equals(getResources().getText(R.string.action_add_admin))) {
+
+                            if (isAdmin) {
+
+                                Intent intent = new Intent(MainActivity.this, AddAdministrator.class);
+                                intent.putExtra(AddAdministrator.ID_USER, firebaseUser.getUid());
+                                intent.putExtra(AddAdministrator.NAME_USER, firebaseUser.getDisplayName());
+                                startActivity(intent);
+
+                            } else {
+
+                                mDrawerLayout.closeDrawer(GravityCompat.START);
+                                Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.not_permission), Snackbar.LENGTH_LONG)
+                                        .show();
+                            }
+
+
+                        }
 
                         return true;
                     }
@@ -125,22 +240,31 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                if (isAdmin) {
 
-                if (getPosition() == newsTabs) {
+                    if (getPosition() == newsTabs) {
 
-                    Intent intent = new Intent(MainActivity.this, RegisterCreateNewsActivity.class);
-                    startActivity(intent);
+                        Intent intent = new Intent(MainActivity.this, RegisterCreateNewsActivity.class);
+                        startActivity(intent);
 
 
-                } else if (getPosition() == teamTabs) {
+                    } else if (getPosition() == teamTabs) {
 
-                    Intent intent = new Intent(MainActivity.this, RegisterCreatePlayerActivity.class);
-                    startActivity(intent);
+                        Intent intent = new Intent(MainActivity.this, RegisterCreatePlayerActivity.class);
+                        startActivity(intent);
+
+                    } else {
+
+                        Intent intent = new Intent(MainActivity.this, RegisterCreateMatchActivity.class);
+                        startActivity(intent);
+
+                    }
 
                 } else {
 
-                    Intent intent = new Intent(MainActivity.this, RegisterCreateMatchActivity.class);
-                    startActivity(intent);
+
+                    Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.not_permission), Snackbar.LENGTH_LONG)
+                            .show();
 
                 }
 
@@ -226,18 +350,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
         return true;
     }
 
 
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
+
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
         adapter.addFragment(new NewsFragment(), getResources().getString(R.string.tabs_name_news));
         adapter.addFragment(new PlayerFragment(), getResources().getString(R.string.tabs_name_team));
         adapter.addFragment(new MatchFragment(), getResources().getString(R.string.tabs_name_match));
         viewPager.setAdapter(adapter);
+
     }
 
     @Override

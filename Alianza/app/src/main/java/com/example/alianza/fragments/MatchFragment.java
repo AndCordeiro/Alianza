@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +63,11 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (s != null) {
                     if (!s.equals(dataSnapshot)) {
+                        Log.e("Is Not Null", "onChildAdded: ");
                         getAllMatch(dataSnapshot);
                     }
                 } else {
+                    Log.e("Is Null", "onChildAdded: ");
                     getAllMatch(dataSnapshot);
 
                 }

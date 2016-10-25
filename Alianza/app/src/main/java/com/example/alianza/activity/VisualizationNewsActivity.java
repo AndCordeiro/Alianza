@@ -2,6 +2,7 @@ package com.example.alianza.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,7 +34,6 @@ public class VisualizationNewsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
         textViewTitleNews = (TextView) findViewById(R.id.textViewTitleNews);
         textViewNews = (TextView) findViewById(R.id.textViewNews);
         textViewAuthorNews = (TextView) findViewById(R.id.textViewAuthorNews);
@@ -60,12 +60,22 @@ public class VisualizationNewsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                Intent intent = new Intent(VisualizationNewsActivity.this, RegisterCreateNewsActivity.class);
-                intent.putExtra(VisualizationNewsActivity.NEWS, news);
+                if (MainActivity.isAdmin) {
 
-                startActivity(intent);
+                    Intent intent = new Intent(VisualizationNewsActivity.this, RegisterCreateNewsActivity.class);
+                    intent.putExtra(VisualizationNewsActivity.NEWS, news);
 
-                finish();
+                    startActivity(intent);
+
+                    finish();
+
+                } else {
+
+                    Snackbar.make(findViewById(R.id.visualizationNews_content), getResources().getString(R.string.not_permission), Snackbar.LENGTH_LONG)
+                            .show();
+
+                }
+
 
                 return false;
             }
