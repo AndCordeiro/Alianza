@@ -16,8 +16,10 @@ import android.view.ViewGroup;
 import com.example.alianza.R;
 import com.example.alianza.activity.MainActivity;
 import com.example.alianza.activity.VisualizationPlayerActivity;
+import com.example.alianza.adapters.NewsAdapter;
 import com.example.alianza.adapters.PlayerAdapter;
 import com.example.alianza.firebase.FireBaseInsert;
+import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -35,11 +37,12 @@ import java.util.List;
 public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickListener, PlayerAdapter.OnLongClickListener, MainActivity.OnClickSearchPlayer {
 
     RecyclerView recyclerView;
-    //PlayerDAO playerDAO;
+
 
     private PlayerAdapter playerAdapter;
     private DatabaseReference databaseReference;
     private List<Player> playerList;
+    private List<Player> searchList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,12 +52,12 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
 
         View view = inflater.inflate(
                 R.layout.fragment_player, container, false);
-        //PlayerAdapter playerAdapter = new PlayerAdapter(getActivity(), new PlayerDAO(getActivity()).playersLoad());
-        // playerAdapter.setOnClickListener(this);
-        //playerAdapter.setOnLongClickListener(this);
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        //recyclerView.setAdapter(playerAdapter);
+
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
@@ -62,12 +65,13 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
         mainActivity.setOnClickSearchPlayer(this);
 
         playerList = new ArrayList<Player>();
+        searchList = new ArrayList<Player>();
 
         databaseReference.child(FireBaseInsert.NAME_PLAYER).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (s != null) {
-                    if (!s.equals(dataSnapshot)) {
+                    if (!s.equals(dataSnapshot.getKey())) {
                         getAllPlayer(dataSnapshot);
                     }
                 } else {
@@ -87,7 +91,7 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
                         playerList.get(i).setPlayer(dataSnapshot.child("player").getValue().toString());
                         playerList.get(i).setDescription(dataSnapshot.child("description").getValue().toString());
                         playerList.get(i).setPosition(dataSnapshot.child("position").getValue().toString());
-                        //playerList.get(i).setPhoto(dataSnapshot.child("photo").getValue().toString());
+                        playerList.get(i).setPhoto(dataSnapshot.child("photo").getValue().toString());
 
 
                         getAllPlayer();
@@ -105,6 +109,8 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                getAllPlayer();
+
             }
 
             @Override
@@ -126,7 +132,6 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
         playerAdapter = new PlayerAdapter(getContext(), playerList);
         playerAdapter.setOnClickListener(this);
         playerAdapter.setOnLongClickListener(this);
-        player.setId(dataSnapshot.getKey());
         recyclerView.setAdapter(playerAdapter);
 
 
@@ -145,10 +150,6 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
     public void onResume() {
         super.onResume();
 
-        //PlayerAdapter playerAdapter = new PlayerAdapter(getActivity(), new PlayerDAO(getContext()).playersLoad());
-        //playerAdapter.setOnClickListener(this);
-        //playerAdapter.setOnLongClickListener(this);
-        //recyclerView.setAdapter(playerAdapter);
 
     }
 
@@ -198,20 +199,64 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
     }
 
     @Override
-    public void onItemClickSearch(String query) {
-        System.out.println("Player");
-        if (query.length() >= 3) {
+    public void onItemClickSearch(final String query) {
 
-            //recyclerView.setAdapter(new PlayerAdapter(getActivity(), new PlayerDAO(getActivity()).playersLoadByNamePlayer(query)));
+        if(query.length() >= 3){
 
-        } else {
+            databaseReference.child(FireBaseInsert.NAME_PLAYER).orderByChild("player").startAt(query).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            //PlayerAdapter playerAdapter = new PlayerAdapter(getActivity(), new PlayerDAO(getActivity()).playersLoad());
-            //recyclerView.setAdapter(playerAdapter);
+                    if(dataSnapshot.getValue() != null){
+                        if(dataSnapshot.getValue().toString().contains(query)){
+                            getSearchPlayer(dataSnapshot);
+
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }else{
+            searchList.clear();
+            getAllPlayer();
 
         }
 
     }
 
+
+    private void getSearchPlayer(DataSnapshot dataSnapshot) {
+
+
+        Player player = dataSnapshot.getValue(Player.class);
+        searchList.add(player);
+        playerAdapter = new PlayerAdapter(getContext(), searchList);
+        playerAdapter.setOnClickListener(this);
+        playerAdapter.setOnLongClickListener(this);
+        recyclerView.setAdapter(playerAdapter);
+
+    }
 
 }

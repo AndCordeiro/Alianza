@@ -38,12 +38,12 @@ import java.util.List;
 public class NewsFragment extends Fragment implements NewsAdapter.OnClickListener, NewsAdapter.OnLongClickListener, MainActivity.OnClickSearchNews {
 
     RecyclerView recyclerView;
-    //NewsDAO newsDAO;
+
 
     private NewsAdapter newsAdapter;
     private DatabaseReference databaseReference;
     private List<News> newsList;
-
+    private List<News> searchList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +54,8 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        //recyclerView.setAdapter(newsAdapter);
+
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -63,19 +64,20 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
 
 
         newsList = new ArrayList<News>();
+        searchList = new ArrayList<News>();
 
         databaseReference.child(FireBaseInsert.NAME_NEWS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
                 if (s != null) {
-                    Log.e("Is Not Null", "onChildAdded: ");
-                    if (!s.equals(dataSnapshot)) {
+                    if (!s.equals(dataSnapshot.getKey())) {
+
                         getAllNews(dataSnapshot);
                     }
+
                 } else {
-                    Log.e("Is Null", "onChildAdded: ");
-                     getAllNews(dataSnapshot);
+                    getAllNews(dataSnapshot);
                 }
 
 
@@ -103,19 +105,20 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 getAllNews();
+                Log.e("TAG", "onChildMoved: " + "Aqui2222222222222222222222222" );
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
-                System.out.println("Passei aqui move");
+                getAllNews();
+                Log.e("TAG", "onChildMoved: " + "Aqui!!!!!!!!!!!!!!!!!!!!!!!!11" );
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
-                System.out.println("Passei aqui canceled");
             }
         });
 
@@ -131,8 +134,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
         newsAdapter = new NewsAdapter(getContext(), newsList);
         newsAdapter.setOnClickListener(this);
         newsAdapter.setOnLongClickListener(this);
-        news.setId(dataSnapshot.getKey());
-        Log.e("Teste: ", "getAllPlayer: " + news.toString());
         recyclerView.setAdapter(newsAdapter);
 
     }
@@ -165,7 +166,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
     @Override
     public boolean onLongItemClickListener(final News news) {
 
-        // Use the Builder class for convenient dialog construction
+
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(getContext(), R.style.AppThemeRegisters));
         builder.setPositiveButton(getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -200,19 +201,60 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
     public void onItemClickSearch(final String query) {
 
 
+        if(query.length() >= 3){
 
-        if (query.length() >= 3) {
+            databaseReference.child(FireBaseInsert.NAME_NEWS).orderByChild("title").startAt(query).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-            //recyclerView.setAdapter(new NewsAdapter(getActivity(), new NewsDAO(getActivity()).newsLoadByTitle(query)));
+                    if(dataSnapshot.getValue() != null){
+                        if(dataSnapshot.getValue().toString().contains(query)){
+                            getSearchNews(dataSnapshot);
 
+                        }
 
+                    }
 
-        } else {
-            System.out.println("News1");
-            //NewsAdapter newsAdapter = new NewsAdapter(getActivity(), new NewsDAO(getContext()).newsLoad());
-            //recyclerView.setAdapter(newsAdapter);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        }else{
+            searchList.clear();
+            getAllNews();
 
         }
+
+    }
+
+    private void getSearchNews(DataSnapshot dataSnapshot) {
+
+
+        News news = dataSnapshot.getValue(News.class);
+        searchList.add(news);
+        newsAdapter = new NewsAdapter(getContext(), searchList);
+        newsAdapter.setOnClickListener(this);
+        newsAdapter.setOnLongClickListener(this);
+        recyclerView.setAdapter(newsAdapter);
 
     }
 }

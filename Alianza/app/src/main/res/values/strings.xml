@@ -52,6 +52,7 @@
     <string name="select_image">Image Select</string>
     <string name="delete">You want to delete data?</string>
     <string name="attention">Attention!</string>
+    <string name="add">You want to add as an administrator?</string>
 
     <string name="not_permission">You don\'t have permission!</string>
     <string name="request_permission">You requested permission, wait please!</string>

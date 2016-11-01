@@ -17,8 +17,10 @@ import com.example.alianza.R;
 import com.example.alianza.activity.MainActivity;
 import com.example.alianza.activity.VisualizationMatchActivity;
 import com.example.alianza.adapters.MatchAdapter;
+import com.example.alianza.adapters.NewsAdapter;
 import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.Match;
+import com.example.alianza.pojo.News;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,46 +34,48 @@ import java.util.List;
  * Created by andre on 09/10/16.
  */
 
-public class MatchFragment extends Fragment implements MatchAdapter.OnClickListener, MatchAdapter.OnLongClickListener, MainActivity.OnClickSearchMatch{
+public class MatchFragment extends Fragment implements MatchAdapter.OnClickListener, MatchAdapter.OnLongClickListener, MainActivity.OnClickSearchMatch {
 
     RecyclerView recyclerView;
-    // MatchDAO matchDAO;
+
+
     private MatchAdapter matchAdapter;
     private DatabaseReference databaseReference;
     private List<Match> matchList;
+    private List<Match> searchList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_match, container, false);
-        //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
-        //matchAdapter.setOnClickListener(this);
-        //matchAdapter.setOnLongClickListener(this);
+
+
         databaseReference = FirebaseDatabase.getInstance().getReference();
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-        //recyclerView.setAdapter(matchAdapter);
+
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        MainActivity mainActivity = (MainActivity)getActivity();
+        MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setOnClickSearchMatch(this);
 
         matchList = new ArrayList<Match>();
+        searchList = new ArrayList<Match>();
 
         databaseReference.child(FireBaseInsert.NAME_MATCH).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if (s != null) {
-                    if (!s.equals(dataSnapshot)) {
-                        Log.e("Is Not Null", "onChildAdded: ");
+                    if (!s.equals(dataSnapshot.getKey())) {
                         getAllMatch(dataSnapshot);
                     }
                 } else {
-                    Log.e("Is Null", "onChildAdded: ");
                     getAllMatch(dataSnapshot);
 
                 }
             }
+
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
@@ -91,16 +95,19 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
                 }
 
             }
+
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
                 getAllMatch();
 
             }
+
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                System.out.println("moved firebase");
+                getAllMatch();
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
@@ -110,7 +117,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
         return view;
     }
 
-    private void getAllMatch(DataSnapshot dataSnapshot){
+    private void getAllMatch(DataSnapshot dataSnapshot) {
 
 
         Match match = dataSnapshot.getValue(Match.class);
@@ -118,7 +125,6 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
         matchAdapter = new MatchAdapter(getContext(), matchList);
         matchAdapter.setOnClickListener(this);
         matchAdapter.setOnLongClickListener(this);
-        match.setId(dataSnapshot.getKey());
         recyclerView.setAdapter(matchAdapter);
     }
 
@@ -134,11 +140,6 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
     @Override
     public void onResume() {
         super.onResume();
-
-        //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
-        //matchAdapter.setOnClickListener(this);
-        //matchAdapter.setOnLongClickListener(this);
-        //recyclerView.setAdapter(matchAdapter);
 
 
     }
@@ -187,18 +188,62 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
     }
 
     @Override
-    public void onItemClickSearch(String query) {
+    public void onItemClickSearch(final String query) {
 
         if (query.length() >= 3) {
 
-            //recyclerView.setAdapter(new MatchAdapter(getActivity(), new MatchDAO(getActivity()).matchLoadByOpponent(query)));
+            databaseReference.child(FireBaseInsert.NAME_MATCH).orderByChild("opponentTeam").startAt(query).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-        }else{
+                    if (dataSnapshot.getValue() != null) {
+                        if (dataSnapshot.getValue().toString().contains(query)) {
+                            getSearchMatch(dataSnapshot);
 
-            //MatchAdapter matchAdapter = new MatchAdapter(getActivity(), new MatchDAO(getContext()).matchesLoad());
-            //recyclerView.setAdapter(matchAdapter);
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+
+        } else {
+            searchList.clear();
+            getAllMatch();
 
         }
+
+    }
+
+    private void getSearchMatch(DataSnapshot dataSnapshot) {
+
+
+        Match match = dataSnapshot.getValue(Match.class);
+        searchList.add(match);
+        matchAdapter = new MatchAdapter(getContext(), searchList);
+        matchAdapter.setOnClickListener(this);
+        matchAdapter.setOnLongClickListener(this);
+        recyclerView.setAdapter(matchAdapter);
 
     }
 }

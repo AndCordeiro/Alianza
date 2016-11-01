@@ -4,8 +4,6 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,10 +24,8 @@ import android.widget.Toast;
 
 import com.example.alianza.R;
 import com.example.alianza.firebase.FireBaseInsert;
-import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
-import com.google.firebase.storage.FirebaseStorage;
 import com.squareup.picasso.Picasso;
 
 public class RegisterCreatePlayerActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
@@ -40,6 +37,9 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
     private ImageView photo;
     private int id = 0;
     Player playerVisualization;
+    private String pathPhoto = null;
+
+
 
     public static final int REQUEST_CAMERA = 1;
     public static final int REQUEST_GALERY = 2;
@@ -60,8 +60,6 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
         description = (EditText) findViewById(R.id.editTextPlayerDescription);
         position = (EditText) findViewById(R.id.editTextPlayerPosition);
         photo = (ImageView) findViewById(R.id.picturePlayer);
-
-
 
         Intent intent = getIntent();
         playerVisualization = (Player) intent.getSerializableExtra(VisualizationPlayerActivity.PLAYER);
@@ -99,13 +97,13 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(new ContextThemeWrapper(this, R.style.AppThemeRegisters));
         builder.setPositiveButton(getResources().getString(R.string.button_galery), new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
+            public void onClick(DialogInterface dialog, int id) {
 
-                        getGalery();
+                getGalery();
 
 
-                    }
-                })
+            }
+        })
                 .setNegativeButton(getResources().getString(R.string.button_camera), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
@@ -141,29 +139,24 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-               // PlayerDAO playerDAO = new PlayerDAO(getBaseContext());
-
-
                 String birthString = birth.getText().toString();
                 String playerString = player.getText().toString();
                 String descriptionString = description.getText().toString();
                 String positionString = position.getText().toString();
-
-                //String resultado;
+                String photoString = null;
 
                 if (id != 1) {
 
                     if (birthString != null && !birthString.isEmpty() && !birthString.equals("") && playerString != null && !playerString.isEmpty() && !playerString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && positionString != null && !positionString.isEmpty() && !positionString.equals("")) {
 
-
-                        //resultado = playerDAO.dataInsert(DateUtils.formatDate(birthString, DateUtils.DATE_BR, DateUtils.DATE_DB), playerString, descriptionString, positionString, null);
-
-                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-
-                        Player player = new Player(birthString, playerString, descriptionString, positionString, null);
-
                         FireBaseInsert f = new FireBaseInsert();
+
+
+                        Player player = new Player(birthString, playerString, descriptionString, positionString, photoString);
+
                         f.insertData(player);
+                        Log.e("TAG", "onMenuItemClick: " + pathPhoto );
+                        f.setPhotos(pathPhoto, player);
 
                         finish();
 
@@ -172,24 +165,20 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
                     }
 
-                }else{
+                } else {
 
 
                     if (birthString != null && !birthString.isEmpty() && !birthString.equals("") && playerString != null && !playerString.isEmpty() && !playerString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && positionString != null && !positionString.isEmpty() && !positionString.equals("")) {
 
 
-                        //resultado = playerDAO.dataInsert(DateUtils.formatDate(birthString, DateUtils.DATE_BR, DateUtils.DATE_DB), playerString, descriptionString, positionString, null);
+                        FireBaseInsert f = new FireBaseInsert();
 
-                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-
-                        Player player = new Player(birthString, playerString, descriptionString, positionString, null);
+                        Player player = new Player(birthString, playerString, descriptionString, positionString, photoString);
+                        f.setPhotos(pathPhoto, player);
 
                         player.setId(playerVisualization.getId());
 
-
-                        FireBaseInsert f = new FireBaseInsert();
                         f.updateData(player);
-
 
                         Intent intent = new Intent(RegisterCreatePlayerActivity.this, VisualizationPlayerActivity.class);
                         intent.putExtra(VisualizationPlayerActivity.PLAYER, player);
@@ -220,24 +209,29 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
 
-
-
-            Picasso.with(this).load(data.getData()).into(photo);
-
-
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), imageBitmap, "any_Title", null);
+            Picasso.with(this).load(path).fit().centerCrop().into(photo);
+            pathPhoto = path;
+            Log.e("TAG", "onActivityResult: " + path );
 
         } else if (requestCode == REQUEST_GALERY && resultCode == RESULT_OK) {
 
-System.out.print(data.getData().getPath());
-            photo.setImageURI(data.getData());
-
+            Picasso.with(this).load(data.getData()).fit().centerCrop().into(photo);
+            pathPhoto = data.getData().getPath();
+            Log.e("TAG", "onActivityResult: " + data.getData().getPath() );
+            Log.e("TAG", "onActivityResult: " + data.getData() );
         }
     }
 
     public void getCamera() {
 
+        String path;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_CAMERA);
+        }
 
     }
 
@@ -259,6 +253,7 @@ System.out.print(data.getData().getPath());
 
 
     }
+
 
 
 }

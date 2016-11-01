@@ -5,18 +5,27 @@ package com.example.alianza.adapters;
  */
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alianza.R;
+import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -29,11 +38,13 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     protected List<Player> mPlayer;
     protected PlayerAdapter.OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
+    Context context;
 
 
     public PlayerAdapter(Context context, List<Player> player) {
 
         this.mPlayer = player;
+        this.context = context;
 
     }
 
@@ -50,9 +61,9 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
 
-        Player player = mPlayer.get(position);
 
-        //holder.photo.set(player.getPhoto());
+        Player player = mPlayer.get(position);
+        Picasso.with(context).load(player.getPhoto()).fit().centerCrop().into(holder.photo);
         holder.player.setText(player.getPlayer());
         holder.age.setText(DateUtils.getAge(player.getBirth()) + " " + holder.itemView.getContext().getString(R.string.years));
 
@@ -88,7 +99,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        //public ImageView photo;
+        public ImageView photo;
         public TextView player;
         public TextView age;
 
@@ -97,7 +108,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
             super(itemView);
 
             mPlayer = playerList;
-            //photo = (ImageView) itemView.findViewById(R.id.picturePlayer);
+            photo = (ImageView) itemView.findViewById(R.id.picturePlayer);
             player = (TextView) itemView.findViewById(R.id.name_player);
             age = (TextView) itemView.findViewById(R.id.age_player);
 
@@ -131,4 +142,5 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
         }
     }
+
 }

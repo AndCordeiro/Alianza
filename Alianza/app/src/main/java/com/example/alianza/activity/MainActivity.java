@@ -27,15 +27,16 @@ import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.fragments.MatchFragment;
 import com.example.alianza.fragments.NewsFragment;
 import com.example.alianza.fragments.PlayerFragment;
+import com.example.alianza.pojo.User;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Logger;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
@@ -104,20 +105,84 @@ public class MainActivity extends AppCompatActivity {
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileName.setText(firebaseUser.getDisplayName());
 
-        //FireBaseInsert fireBaseInsert= new FireBaseInsert();
-        //fireBaseInsert.insertAdmin(firebaseUser.getUid(), firebaseUser.getDisplayName());
+       //User user = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("admin");
+       //FireBaseInsert fireBaseInsert= new FireBaseInsert();
+       //fireBaseInsert.insertAdmin(user);
 
-        databaseReference.orderByKey().addValueEventListener(new ValueEventListener() {
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child(FireBaseInsert.ADMIN).addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                if (firebaseUser.getUid().equals(dataSnapshot.getValue().toString().substring(1, 29))) {
+                if (dataSnapshot.getValue() != null) {
 
-                    isAdmin = true;
+                    User user = dataSnapshot.getValue(User.class);
+
+                    if (firebaseUser.getUid().equals(user.getId())) {
+
+                        isAdmin = true;
+
+                    }
 
                 }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child(FireBaseInsert.REQUEST_ADMIN).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+                if (dataSnapshot.getValue() != null) {
+
+                    User user = dataSnapshot.getValue(User.class);
+                    Log.e("TAG", "onChildAdded: " + dataSnapshot.toString() + " / " + user.toString() + " / " + firebaseUser.getUid());
+
+                    if (firebaseUser.getUid().equals(user.getId())) {
+
+                        isRequestAdmin = true;
+
+                    }
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
             }
 
@@ -128,18 +193,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        // Adding menu icon to Toolbar
         ActionBar supportActionBar = getSupportActionBar();
         if (supportActionBar != null) {
-            /*VectorDrawableCompat indicator =
-                    VectorDrawableCompat.create(getResources(), R.drawable.ic_menu_black_24dp, getTheme());
-            indicator.setTint(ResourcesCompat.getColor(getResources(), R.color.colorWhite, getTheme()));*/
-            supportActionBar.setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_white_24dp, getTheme()));
+              supportActionBar.setHomeAsUpIndicator(ResourcesCompat.getDrawable(getResources(), R.drawable.ic_menu_white_24dp, getTheme()));
             supportActionBar.setDisplayHomeAsUpEnabled(true);
         }
 
 
-        // Set behavior of Navigation drawer
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     // This method will trigger on item Click of navigation menu
@@ -156,30 +217,13 @@ public class MainActivity extends AppCompatActivity {
                             if (!isAdmin) {
 
 
-                                databaseReference = FirebaseDatabase.getInstance().getReference("request admin");
-
-                                databaseReference.orderByKey().addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                        if (firebaseUser.getUid().equals(dataSnapshot.getValue().toString().substring(1, 29))) {
-
-                                            isRequestAdmin = true;
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-
                                 if (!isRequestAdmin) {
 
+                                    User user = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
+
                                     FireBaseInsert fireBaseInsert = new FireBaseInsert();
-                                    fireBaseInsert.insertAdmin(firebaseUser.getUid(), firebaseUser.getDisplayName());
+                                    fireBaseInsert.insertRequestAdmin(user);
+
                                     mDrawerLayout.closeDrawer(GravityCompat.START);
                                     Snackbar.make(findViewById(R.id.main_content), getResources().getString(R.string.send_request_permission), Snackbar.LENGTH_LONG)
                                             .show();
@@ -214,9 +258,7 @@ public class MainActivity extends AppCompatActivity {
 
                             if (isAdmin) {
 
-                                Intent intent = new Intent(MainActivity.this, AddAdministrator.class);
-                                intent.putExtra(AddAdministrator.ID_USER, firebaseUser.getUid());
-                                intent.putExtra(AddAdministrator.NAME_USER, firebaseUser.getDisplayName());
+                                Intent intent = new Intent(MainActivity.this, AddAdministratorActivity.class);
                                 startActivity(intent);
 
                             } else {
@@ -291,7 +333,6 @@ public class MainActivity extends AppCompatActivity {
 
                     case matchTabs:
                         setPosition(matchTabs);
-                        ;
                         break;
 
                 }
@@ -320,14 +361,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                // Toast like print
+
 
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
 
 
                 if (getPosition() == newsTabs) {
@@ -345,6 +385,7 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+
                 return false;
             }
         });
@@ -354,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    // Add Fragments to Tabs
+
     private void setupViewPager(ViewPager viewPager) {
 
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
@@ -367,13 +408,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
+
         int id = item.getItemId();
 
 
-        //noinspection SimplifiableIfStatement
+
         if (id == android.R.id.home) {
 
             mDrawerLayout.openDrawer(GravityCompat.START);

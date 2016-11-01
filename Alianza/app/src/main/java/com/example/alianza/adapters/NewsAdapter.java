@@ -53,7 +53,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         News news = mNews.get(position);
         holder.title.setText(news.getTitle());
         holder.author.setText(news.getAuthor());
-        holder.dateNews.setText(news.getDateNews()/*DateUtils.formatDate(news.getDateNews(), DateUtils.DATE_DB, DateUtils.DATE_BR)*/);
+        holder.dateNews.setText(news.getDateNews());
 
 
     }

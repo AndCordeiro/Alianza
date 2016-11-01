@@ -51,7 +51,6 @@ dependencies {
     // Firebase UI
     compile 'com.firebaseui:firebase-ui-database:0.4.2'
 
-    compile 'com.squareup.retrofit2:converter-gson:2.0.2'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
 
