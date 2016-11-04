@@ -99,25 +99,17 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                //MatchDAO matchDAO = new MatchDAO(getBaseContext());
-
-
                 String dateOfMatchString = dateOfMatch.getText().toString();
                 String hourOfMatchString = hourOfMatch.getText().toString();
                 String opponentTeamString = opponentTeam.getText().toString();
                 String placeOfMatchString = placeOfMatch.getText().toString();
                 String descriptionString = description.getText().toString();
-                //String resultado;
+
 
 
                 if (id != 1) {
 
                     if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
-
-
-                        //resultado = matchDAO.dataInsert(DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_BR, DateUtils.DATE_DB), hourOfMatchString, Match.TEAM, opponentTeamString, descriptionString, placeOfMatchString);
-
-                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
                         Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
 
@@ -136,11 +128,6 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
 
                     if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
 
-
-                        //resultado = matchDAO.dataInsert(DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_BR, DateUtils.DATE_DB), hourOfMatchString, Match.TEAM, opponentTeamString, descriptionString, placeOfMatchString);
-
-                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
-
                         Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
 
 
@@ -149,10 +136,6 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
                         FireBaseInsert f = new FireBaseInsert();
                         f.updateData(match);
 
-                        Intent intent = new Intent(RegisterCreateMatchActivity.this, VisualizationMatchActivity.class);
-                        intent.putExtra(VisualizationMatchActivity.MATCH, match);
-
-                        startActivity(intent);
 
                         finish();
 

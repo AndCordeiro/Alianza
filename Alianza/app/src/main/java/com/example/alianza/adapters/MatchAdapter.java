@@ -123,7 +123,6 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
                     if (onLongClickListener != null) {
 
                         onLongClickListener.onLongItemClickListener(mMatch.get(getAdapterPosition()));
-
                     }
 
                     return true;

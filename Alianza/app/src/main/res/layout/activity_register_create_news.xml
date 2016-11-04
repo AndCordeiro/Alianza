@@ -47,8 +47,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/title_news"
-                android:maxLines="1"
-                android:textColor="@color/colorBlack"/>
+                android:singleLine="true"
+                android:textColor="@color/colorBlack" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/author_news"
-                android:maxLines="1"/>
+                android:singleLine="true"/>
 
         </android.support.design.widget.TextInputLayout>
 
@@ -80,7 +80,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/news"
-                android:maxLength="160"/>
+                android:maxLines="10"/>
 
 
         </android.support.design.widget.TextInputLayout>

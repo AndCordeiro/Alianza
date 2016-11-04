@@ -18,6 +18,7 @@ import com.example.alianza.activity.MainActivity;
 import com.example.alianza.activity.VisualizationNewsActivity;
 import com.example.alianza.adapters.NewsAdapter;
 import com.example.alianza.firebase.FireBaseInsert;
+import com.example.alianza.pojo.Match;
 import com.example.alianza.pojo.News;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,50 +38,52 @@ import java.util.List;
 
 public class NewsFragment extends Fragment implements NewsAdapter.OnClickListener, NewsAdapter.OnLongClickListener, MainActivity.OnClickSearchNews {
 
+    private static final String TAG = "dadwa";
     RecyclerView recyclerView;
-
-
     private NewsAdapter newsAdapter;
     private DatabaseReference databaseReference;
     private List<News> newsList;
     private List<News> searchList;
+    private String key = "0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_news, container, false);
-
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setOnClickSearchNews(this);
 
-
-        newsList = new ArrayList<News>();
-        searchList = new ArrayList<News>();
+        newsList = new ArrayList<>();
+        searchList = new ArrayList<>();
 
         databaseReference.child(FireBaseInsert.NAME_NEWS).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                if (s != null) {
-                    if (!s.equals(dataSnapshot.getKey())) {
+                if (newsList.size() < 1) {
 
-                        getAllNews(dataSnapshot);
-                    }
+                    getAllNews(dataSnapshot);
 
                 } else {
-                    getAllNews(dataSnapshot);
+
+                    if (!key.equals(dataSnapshot.getKey())) {
+
+                        getAllNews(dataSnapshot);
+
+
+                    }
+
                 }
 
-
+                key = dataSnapshot.getKey();
             }
 
             @Override
@@ -104,15 +107,21 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
+                for (int i = 0; i < newsList.size(); i++) {
+
+                    if (newsList.get(i).getId().equals(dataSnapshot.getKey())) {
+
+                        newsList.remove(i);
+                    }
+
+                }
                 getAllNews();
-                Log.e("TAG", "onChildMoved: " + "Aqui2222222222222222222222222" );
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
 
                 getAllNews();
-                Log.e("TAG", "onChildMoved: " + "Aqui!!!!!!!!!!!!!!!!!!!!!!!!11" );
 
             }
 
@@ -171,14 +180,6 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
         builder.setPositiveButton(getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                for (int i = 0; i < newsList.size(); i++) {
-
-                    if (newsList.get(i).getId().equals(news.getId())) {
-
-                        newsList.remove(i);
-                    }
-
-                }
                 databaseReference.child(FireBaseInsert.NAME_NEWS).child(news.getId()).removeValue();
 
             }
@@ -201,14 +202,14 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
     public void onItemClickSearch(final String query) {
 
 
-        if(query.length() >= 3){
+        if (query.length() >= 3) {
 
             databaseReference.child(FireBaseInsert.NAME_NEWS).orderByChild("title").startAt(query).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    if(dataSnapshot.getValue() != null){
-                        if(dataSnapshot.getValue().toString().contains(query)){
+                    if (dataSnapshot.getValue() != null) {
+                        if (dataSnapshot.getValue().toString().contains(query)) {
                             getSearchNews(dataSnapshot);
 
                         }
@@ -238,7 +239,7 @@ public class NewsFragment extends Fragment implements NewsAdapter.OnClickListene
                 }
             });
 
-        }else{
+        } else {
             searchList.clear();
             getAllNews();
 

@@ -26,7 +26,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         GoogleApiClient.OnConnectionFailedListener {
 
 
-
     protected List<News> mNews;
     protected OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
@@ -41,10 +40,8 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        ViewHolder viewHolder = null;
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_news, parent, false);
-        viewHolder = new ViewHolder(layoutView, mNews);
-        return viewHolder;
+        return new ViewHolder(layoutView, mNews);
     }
 
     @Override
@@ -84,6 +81,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         this.onLongClickListener = onLongClickListener;
     }
 
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView title;
@@ -98,9 +96,6 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
             title = (TextView) itemView.findViewById(R.id.title_new);
             author = (TextView) itemView.findViewById(R.id.author_new);
             dateNews = (TextView) itemView.findViewById(R.id.date_new);
-
-
-
 
 
             itemView.setOnClickListener(new View.OnClickListener() {

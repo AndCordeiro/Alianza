@@ -19,7 +19,6 @@ public class Player implements Serializable{
 
     public Player(String birth, String player, String description, String position, String photo){
 
-        //this.id = id;
         this.birth = birth;
         this.player = player;
         this.description = description;

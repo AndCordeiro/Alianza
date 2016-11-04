@@ -37,4 +37,10 @@
     <string name="action_logout">Sair</string>
     <string name="action_admin">Requisitar Administrador</string>
     <string name="menu_drawer_admin">Requisitar Administrador</string>
+    <string name="add">Você deseja adicionar como um administrador?</string>
+    <string name="action_add_admin">Adicionar Administrador</string>
+    <string name="admin_permission">Você é um administrador!</string>
+    <string name="menu_drawer_add_admin">Adicionar Administrador</string>
+    <string name="request_permission">Você já requisitou permissão, por favor espere!</string>
+    <string name="send_request_permission">Sua requisição foi enviada!</string>
 </resources>

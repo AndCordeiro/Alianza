@@ -43,41 +43,39 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
     private DatabaseReference databaseReference;
     private List<Player> playerList;
     private List<Player> searchList;
+    private String key = "0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         setHasOptionsMenu(true);
-
-        View view = inflater.inflate(
-                R.layout.fragment_player, container, false);
-
+        View view = inflater.inflate(R.layout.fragment_player, container, false);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setOnClickSearchPlayer(this);
 
-        playerList = new ArrayList<Player>();
-        searchList = new ArrayList<Player>();
+        playerList = new ArrayList<>();
+        searchList = new ArrayList<>();
 
         databaseReference.child(FireBaseInsert.NAME_PLAYER).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (s != null) {
-                    if (!s.equals(dataSnapshot.getKey())) {
-                        getAllPlayer(dataSnapshot);
-                    }
-                } else {
+
+                if (!key.equals(dataSnapshot.getKey())) {
+
                     getAllPlayer(dataSnapshot);
 
                 }
+
+                key = dataSnapshot.getKey();
+
             }
 
             @Override
@@ -103,6 +101,14 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
+                for (int i = 0; i < playerList.size(); i++) {
+
+                    if (playerList.get(i).getId().equals(dataSnapshot.getKey())) {
+
+                        playerList.remove(i);
+                    }
+
+                }
                 getAllPlayer();
 
             }
@@ -171,14 +177,8 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
         builder.setPositiveButton(getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                for (int i = 0; i < playerList.size(); i++) {
-
-                    if (playerList.get(i).getId().equals(player.getId())) {
-
-                        playerList.remove(i);
-                    }
-
-                }
+                FireBaseInsert fireBaseInsert = new FireBaseInsert();
+                fireBaseInsert.deletePhoto(player);
                 databaseReference.child(FireBaseInsert.NAME_PLAYER).child(player.getId()).removeValue();
 
             }
@@ -201,19 +201,14 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
     @Override
     public void onItemClickSearch(final String query) {
 
-        if(query.length() >= 3){
+        if (query.length() >= 3) {
 
             databaseReference.child(FireBaseInsert.NAME_PLAYER).orderByChild("player").startAt(query).addChildEventListener(new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
 
-                    if(dataSnapshot.getValue() != null){
-                        if(dataSnapshot.getValue().toString().contains(query)){
-                            getSearchPlayer(dataSnapshot);
+                    getSearchPlayer(dataSnapshot);
 
-                        }
-
-                    }
 
                 }
 
@@ -238,7 +233,7 @@ public class PlayerFragment extends Fragment implements PlayerAdapter.OnClickLis
                 }
             });
 
-        }else{
+        } else {
             searchList.clear();
             getAllPlayer();
 

@@ -61,28 +61,19 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-               // NewsDAO newsDAO = new NewsDAO(getBaseContext());
-
 
                 String titleString = title.getText().toString();
                 String authorString = author.getText().toString();
                 String newsString = edNews.getText().toString();
 
-                //String resultado;
-
                 if (id != 1) {
 
                     if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
-
-
-                        //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
 
                         News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
 
                         FireBaseInsert f = new FireBaseInsert();
                         f.insertData(news);
-
-                        // Toast.makeText(getApplicationContext(), resultado, Toast.LENGTH_LONG).show();
 
                         finish();
 
@@ -96,23 +87,12 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
 
                     if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
-
-                        //resultado = newsDAO.dataInsert(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATETIME_DB));
-
                         News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
-
-
 
                         news.setId(newsVisualization.getId());
 
                         FireBaseInsert f = new FireBaseInsert();
                         f.updateData(news);
-
-
-                        Intent intent = new Intent(RegisterCreateNewsActivity.this, VisualizationNewsActivity.class);
-                        intent.putExtra(VisualizationNewsActivity.NEWS, news);
-
-                        startActivity(intent);
 
                         finish();
 
@@ -121,11 +101,7 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.all_fields_mandatory), Toast.LENGTH_LONG).show();
                     }
 
-
-
                 }
-
-
 
                 return false;
             }

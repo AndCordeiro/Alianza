@@ -7,7 +7,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/md_keylines"
         android:paddingTop="@dimen/md_keylines"

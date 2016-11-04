@@ -95,11 +95,6 @@ public class VisualizationMatchActivity extends AppCompatActivity {
 
     public void setMatch(Match match){
 
-        /*
-        MatchDAO matchDAO = new MatchDAO(getBaseContext());
-        List<Match> match = matchDAO.newsLoadByID(id);;
-        */
-
         textViewDateOfMatch.setText(match.getDateOfMatch());
         textViewHourOfMatch.setText(match.getHourOfMatch());
         textViewOpponentTeam.setText(match.getOpponentTeam());

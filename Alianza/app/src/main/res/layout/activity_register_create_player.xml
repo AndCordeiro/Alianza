@@ -78,11 +78,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/name_player"
-                android:maxLines="1"
-                android:textColor="@color/colorBlack" />
+                android:singleLine="true"
+                android:textColor="@color/colorBlack"/>
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputPlayerPosition"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+
+            <EditText
+                android:id="@+id/editTextPlayerPosition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/position_player"
+                android:singleLine="true"/>
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputPlayerDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="#000000">
+
+            <EditText
+                android:id="@+id/editTextPlayerDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description_player"
+                android:maxLines="4" />
+
+
+        </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputPlayerBirth"
@@ -100,36 +130,6 @@
                 android:hint="@string/player_birth"
                 android:maxLines="1"
                 android:onClick="showDatePickerDialog" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputPlayerPosition"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="#000000">
-
-            <EditText
-                android:id="@+id/editTextPlayerPosition"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/position_player"
-                android:maxLines="1" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/textInputPlayerDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColorHint="#000000">
-
-            <EditText
-                android:id="@+id/editTextPlayerDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/description_player"
-                android:maxLines="4" />
-
 
         </android.support.design.widget.TextInputLayout>
 

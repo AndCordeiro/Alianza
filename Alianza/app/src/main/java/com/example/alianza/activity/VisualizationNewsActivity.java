@@ -87,11 +87,6 @@ public class VisualizationNewsActivity extends AppCompatActivity {
 
     public void setNews(News news) {
 
-        /*NewsDAO newsDAO = new NewsDAO(getBaseContext());
-        List<News> news = newsDAO.newsLoadByID(id);;
-        */
-
-
         textViewTitleNews.setText(news.getTitle());
         textViewNews.setText(news.getNews());
         textViewAuthorNews.setText(news.getAuthor());

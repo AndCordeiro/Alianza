@@ -63,7 +63,7 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
 
 
         Player player = mPlayer.get(position);
-        Picasso.with(context).load(player.getPhoto()).fit().centerCrop().into(holder.photo);
+        Picasso.with(context).load(player.getPhoto()).error(R.drawable.perfil_sombra).fit().centerCrop().into(holder.photo);
         holder.player.setText(player.getPlayer());
         holder.age.setText(DateUtils.getAge(player.getBirth()) + " " + holder.itemView.getContext().getString(R.string.years));
 

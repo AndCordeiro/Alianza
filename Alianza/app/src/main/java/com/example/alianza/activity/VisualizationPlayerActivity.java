@@ -1,22 +1,28 @@
 package com.example.alianza.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
+import com.squareup.picasso.Picasso;
 
 public class VisualizationPlayerActivity extends AppCompatActivity {
 
-    //ImageView picturePlayer;
+    ImageView picturePlayer;
     TextView textViewPlayer;
     TextView textViewPlayerBirth;
     TextView textViewPlayerPosition;
@@ -35,7 +41,7 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //picturePlayer = (ImageView) findViewById(R.id.picturePlayer);
+        picturePlayer = (ImageView) findViewById(R.id.picturePlayer);
         textViewPlayer = (TextView) findViewById(R.id.textViewPlayer);
         textViewPlayerBirth = (TextView) findViewById(R.id.textViewPlayerBirth);
         textViewPlayerPosition = (TextView) findViewById(R.id.textViewPlayerPosition);
@@ -88,14 +94,11 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
 
     public void setPlayer(Player player) {
 
-        /*PlayerDAO playerDAO = new PlayerDAO(getBaseContext());
-        List<Player> player = playerDAO.playersLoadByID(id);;
-        */
-
         textViewPlayer.setText(player.getPlayer());
         textViewPlayerBirth.setText(player.getBirth());
         textViewPlayerPosition.setText(player.getPosition());
         textViewPlayerDescription.setText(player.getDescription());
+        Picasso.with(this).load(player.getPhoto()).fit().error(getResources().getDrawable(R.drawable.perfil_sombra)).placeholder(getResources().getDrawable(R.drawable.perfil_sombra)).into(picturePlayer);
 
     }
 }

@@ -2,24 +2,23 @@ package com.example.alianza.firebase;
 
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.example.alianza.pojo.Match;
 import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.pojo.User;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnPausedListener;
+import com.google.firebase.storage.OnProgressListener;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -45,8 +44,7 @@ public class FireBaseInsert {
     String url;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
-    StorageReference storageRefUpload = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/alianza-43035.appspot.com/o/");
-    StorageReference storageRefDownload = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/alianza-43035.appspot.com/o/");
+    StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/alianza-43035.appspot.com/o/");
 
 
     public void insertData(News news) {
@@ -54,7 +52,7 @@ public class FireBaseInsert {
 
         DatabaseReference myRef = database.getReference(NAME_NEWS).push();
 
-
+        news.setId(myRef.getKey());
         myRef.setValue(news);
 
     }
@@ -153,11 +151,31 @@ public class FireBaseInsert {
 
     public void setPhotos(String path, final Player player) {
 
-        Uri file = Uri.fromFile(new File(path));
-        StorageReference imageRef = storageRefUpload.child(NAME_IMAGES + player.getPlayer() + NAME_JPG);
-        UploadTask uploadTask = imageRef.putFile(file);
 
-        uploadTask.addOnFailureListener(new OnFailureListener() {
+        // File or Blob
+        Uri file = Uri.fromFile(new File(path));
+
+        // Create the file metadata
+        StorageMetadata metadata = new StorageMetadata.Builder()
+                .setContentType("image/jpeg")
+                .build();
+
+        // Upload file and metadata to the path 'images/mountains.jpg'
+        UploadTask uploadTask = storageRef.child(NAME_IMAGES + player.getPlayer() + NAME_JPG).putFile(file, metadata);
+
+        // Listen for state changes, errors, and completion of the upload.
+        uploadTask.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                double progress = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                System.out.println("Upload is " + progress + "% done");
+            }
+        }).addOnPausedListener(new OnPausedListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onPaused(UploadTask.TaskSnapshot taskSnapshot) {
+                System.out.println("Upload is paused");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
@@ -165,14 +183,39 @@ public class FireBaseInsert {
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // Handle successful uploads on complete
 
-                player.setPhoto(taskSnapshot.getDownloadUrl().toString());
+                Uri downloadUrl = taskSnapshot.getMetadata().getDownloadUrl();
+                player.setPhoto(downloadUrl.toString());
                 updatePhoto(player);
+            }
+        });
+
+
+
+    }
+
+
+    public void deletePhoto(Player player){
+
+        StorageReference desertRef = storageRef.child(NAME_IMAGES + player.getPlayer() + NAME_JPG);
+
+        desertRef.delete().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Uh-oh, an error occurred!
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
 
             }
         });
 
+
     }
+
+
 
 
     public void updatePhoto(Player player) {
@@ -183,7 +226,6 @@ public class FireBaseInsert {
         Map<String, Object> playerMap = new HashMap<String, Object>();
         playerMap.put("photo", player.getPhoto());
 
-        Log.e("TAG", "updatePhoto: " + player.getPhoto() );
         myRef.updateChildren(playerMap);
 
     }

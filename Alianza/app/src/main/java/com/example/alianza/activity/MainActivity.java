@@ -71,9 +71,7 @@ public class MainActivity extends AppCompatActivity {
         try {
             FirebaseDatabase.getInstance().setPersistenceEnabled(true);
             FirebaseDatabase.getInstance().setLogLevel(Logger.Level.DEBUG);
-            Log.d("Firebase", FirebaseDatabase.getInstance().toString());
         } catch (Exception e) {
-            Log.w("Firebase", "SetPresistenceEnabled:Fail" + FirebaseDatabase.getInstance().toString());
             e.printStackTrace();
         }
 
@@ -160,7 +158,6 @@ public class MainActivity extends AppCompatActivity {
                 if (dataSnapshot.getValue() != null) {
 
                     User user = dataSnapshot.getValue(User.class);
-                    Log.e("TAG", "onChildAdded: " + dataSnapshot.toString() + " / " + user.toString() + " / " + firebaseUser.getUid());
 
                     if (firebaseUser.getUid().equals(user.getId())) {
 
@@ -295,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
                         Intent intent = new Intent(MainActivity.this, RegisterCreatePlayerActivity.class);
                         startActivity(intent);
 
-                    } else {
+                    } else if (getPosition() == matchTabs) {
 
                         Intent intent = new Intent(MainActivity.this, RegisterCreateMatchActivity.class);
                         startActivity(intent);
@@ -340,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 

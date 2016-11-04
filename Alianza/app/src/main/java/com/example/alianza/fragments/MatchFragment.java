@@ -36,44 +36,52 @@ import java.util.List;
 
 public class MatchFragment extends Fragment implements MatchAdapter.OnClickListener, MatchAdapter.OnLongClickListener, MainActivity.OnClickSearchMatch {
 
+    private final String TAG = this.getClass().getSimpleName();
     RecyclerView recyclerView;
-
-
     private MatchAdapter matchAdapter;
     private DatabaseReference databaseReference;
     private List<Match> matchList;
     private List<Match> searchList;
+    private String key = "0";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_match, container, false);
-
-
         databaseReference = FirebaseDatabase.getInstance().getReference();
+
         recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
-
-
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         MainActivity mainActivity = (MainActivity) getActivity();
         mainActivity.setOnClickSearchMatch(this);
 
-        matchList = new ArrayList<Match>();
-        searchList = new ArrayList<Match>();
+        matchList = new ArrayList<>();
+        searchList = new ArrayList<>();
 
         databaseReference.child(FireBaseInsert.NAME_MATCH).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (s != null) {
-                    if (!s.equals(dataSnapshot.getKey())) {
-                        getAllMatch(dataSnapshot);
-                    }
-                } else {
+
+                if(matchList.size() < 1){
+
                     getAllMatch(dataSnapshot);
 
+                }else{
+
+                    if (!key.equals(dataSnapshot.getKey())) {
+
+                        getAllMatch(dataSnapshot);
+
+                    }
+
                 }
+
+                key = dataSnapshot.getKey();
+
             }
 
             @Override
@@ -99,6 +107,14 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
 
+                for (int i = 0; i < matchList.size(); i++) {
+
+                    if (matchList.get(i).getId().equals(dataSnapshot.getKey())) {
+
+                        matchList.remove(i);
+                    }
+
+                }
                 getAllMatch();
 
             }
@@ -161,14 +177,7 @@ public class MatchFragment extends Fragment implements MatchAdapter.OnClickListe
         builder.setPositiveButton(getResources().getString(android.R.string.yes), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
-                for (int i = 0; i < matchList.size(); i++) {
 
-                    if (matchList.get(i).getId().equals(match.getId())) {
-
-                        matchList.remove(i);
-                    }
-
-                }
                 databaseReference.child(FireBaseInsert.NAME_MATCH).child(match.getId()).removeValue();
 
             }
