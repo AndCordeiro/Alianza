@@ -1,14 +1,10 @@
 package com.example.alianza.activity;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alianza.R;
-import com.example.alianza.pojo.News;
 import com.example.alianza.pojo.Player;
+import com.example.alianza.utils.DateUtils;
 import com.squareup.picasso.Picasso;
 
 public class VisualizationPlayerActivity extends AppCompatActivity {
@@ -95,7 +91,7 @@ public class VisualizationPlayerActivity extends AppCompatActivity {
     public void setPlayer(Player player) {
 
         textViewPlayer.setText(player.getPlayer());
-        textViewPlayerBirth.setText(player.getBirth());
+        textViewPlayerBirth.setText(getResources().getConfiguration().locale.getLanguage().equals("pt") ? player.getBirth() : DateUtils.formatDate(player.getBirth(), DateUtils.DATE_BR, DateUtils.DATE_USA));
         textViewPlayerPosition.setText(player.getPosition());
         textViewPlayerDescription.setText(player.getDescription());
         Picasso.with(this).load(player.getPhoto()).fit().error(getResources().getDrawable(R.drawable.perfil_sombra)).placeholder(getResources().getDrawable(R.drawable.perfil_sombra)).into(picturePlayer);

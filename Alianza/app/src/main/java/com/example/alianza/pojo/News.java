@@ -17,7 +17,6 @@ public class News  implements Serializable {
 
     public News(String title, String news, String author, String dateNews){
 
-
         this.title = title;
         this.news = news;
         this.author = author;

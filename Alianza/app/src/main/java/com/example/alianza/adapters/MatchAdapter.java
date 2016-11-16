@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.pojo.Match;
-import com.example.alianza.pojo.News;
-import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -28,11 +26,12 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
     protected List<Match> mMatch;
     protected OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
+    private Context context;
 
     public MatchAdapter(Context context, List<Match> match) {
 
-
         this.mMatch = match;
+        this.context = context;
     }
 
     @Override
@@ -49,7 +48,7 @@ public class MatchAdapter extends RecyclerView.Adapter<MatchAdapter.ViewHolder> 
 
 
         Match match = mMatch.get(position);
-        holder.dateOfMatch.setText(match.getDateOfMatch());
+        holder.dateOfMatch.setText(context.getResources().getConfiguration().locale.getLanguage().equals("pt") ? match.getDateOfMatch() : DateUtils.formatDate(match.getDateOfMatch(), DateUtils.DATE_BR, DateUtils.DATE_USA));
         holder.hourOfMatch.setText(match.getHourOfMatch());
         holder.opponentTeam.setText(match.getOpponentTeam());
         holder.placeOfMatch.setText(match.getPlaceOfMatch());

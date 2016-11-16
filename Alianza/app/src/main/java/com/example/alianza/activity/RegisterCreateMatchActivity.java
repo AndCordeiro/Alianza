@@ -76,7 +76,7 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-        dateOfMatch.setText(DateUtils.formatDatePicker(dayOfMonth, month, year));
+        dateOfMatch.setText(DateUtils.formatDatePicker(dayOfMonth, month, year, this.getResources().getConfiguration().locale.getLanguage()));
 
     }
 
@@ -111,6 +111,12 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
 
                     if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
 
+                        if(!getResources().getConfiguration().locale.getLanguage().equals("pt")){
+
+                            dateOfMatchString = DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_USA, DateUtils.DATE_BR);
+
+                        }
+
                         Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
 
                         FireBaseInsert f = new FireBaseInsert();
@@ -127,6 +133,12 @@ public class RegisterCreateMatchActivity extends AppCompatActivity implements Da
 
 
                     if (dateOfMatchString != null && !dateOfMatchString.isEmpty() && !dateOfMatchString.equals("") && hourOfMatchString != null && !hourOfMatchString.isEmpty() && !hourOfMatchString.equals("") && opponentTeamString != null && !opponentTeamString.isEmpty() && !opponentTeamString.equals("") && descriptionString != null && !descriptionString.isEmpty() && !descriptionString.equals("") && placeOfMatchString != null && !placeOfMatchString.isEmpty() && !placeOfMatchString.equals("")) {
+
+                        if(!getResources().getConfiguration().locale.getLanguage().equals("pt")){
+
+                            dateOfMatchString = DateUtils.formatDate(dateOfMatchString, DateUtils.DATE_USA, DateUtils.DATE_BR);
+
+                        }
 
                         Match match = new Match(dateOfMatchString, hourOfMatchString, opponentTeamString, placeOfMatchString, descriptionString);
 

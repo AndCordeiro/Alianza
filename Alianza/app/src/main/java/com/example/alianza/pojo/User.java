@@ -10,12 +10,13 @@ public class User implements Serializable{
 
     private String id;
     private String name;
-    private String key;
 
 
     public User(String id, String name) {
+
         this.id = id;
         this.name = name;
+
     }
 
     public User() {
@@ -39,20 +40,12 @@ public class User implements Serializable{
         this.name = name;
     }
 
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
-    }
 
     @Override
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", key='" + key + '\'' +
                 '}';
     }
 }

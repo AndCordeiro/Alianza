@@ -5,10 +5,8 @@ package com.example.alianza.adapters;
  */
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.alianza.R;
-import com.example.alianza.firebase.FireBaseInsert;
 import com.example.alianza.pojo.Player;
 import com.example.alianza.utils.DateUtils;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

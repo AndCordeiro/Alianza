@@ -14,7 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
     private DatabaseReference databaseReference;
-    private FirebaseDatabase firebaseDatabase;
 
     CircularImageView circularImageView;
     TextView profileName;
@@ -102,11 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
         profileName = (TextView) view.findViewById(R.id.profile_name);
         profileName.setText(firebaseUser.getDisplayName());
-
-       //User user = new User(firebaseUser.getUid(), firebaseUser.getDisplayName());
-
-       //FireBaseInsert fireBaseInsert= new FireBaseInsert();
-       //fireBaseInsert.insertAdmin(user);
 
         databaseReference = FirebaseDatabase.getInstance().getReference();
 

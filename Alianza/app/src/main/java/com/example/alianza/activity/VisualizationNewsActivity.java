@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.pojo.News;
+import com.example.alianza.utils.DateUtils;
 
 public class VisualizationNewsActivity extends AppCompatActivity {
 
@@ -90,7 +91,7 @@ public class VisualizationNewsActivity extends AppCompatActivity {
         textViewTitleNews.setText(news.getTitle());
         textViewNews.setText(news.getNews());
         textViewAuthorNews.setText(news.getAuthor());
-        textViewDateNews.setText(news.getDateNews());
+        textViewDateNews.setText(getResources().getConfiguration().locale.getLanguage().equals("pt") ? news.getDateNews() : DateUtils.formatDate(news.getDateNews(), DateUtils.DATE_BR, DateUtils.DATE_USA));
 
     }
 }

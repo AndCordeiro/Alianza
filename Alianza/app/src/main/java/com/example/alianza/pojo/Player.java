@@ -1,7 +1,6 @@
 package com.example.alianza.pojo;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
 /**
  * Created by andre on 09/10/16.

@@ -41,26 +41,36 @@ public class DateUtils {
         return new DatePickerDialog(context, onDateSetListener, year, month, day);
     }
 
-    public static String formatDatePicker(int day, int month, int year) {
+    public static String formatDatePicker(int day, int month, int year, String mask) {
 
-
+        String date;
         String dayFormater = String.valueOf((day > 9) ? day : ("0" + day));
         String monthFormater = String.valueOf(((month + 1) > 9) ? (month + 1) : ("0" + (month + 1)));
         String yearFormater = String.valueOf(year);
 
+        if (mask.equals("pt")) {
 
-        return dayFormater + "/" + monthFormater + "/" + yearFormater;
+            date = dayFormater + "/" + monthFormater + "/" + yearFormater;
+
+        } else {
+
+            date = monthFormater + "/" + dayFormater + "/" + yearFormater;
+        }
+
+
+        return date;
     }
 
+    public static String getDate() {
 
-    public static String getDate(String mask) {
 
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat(mask);
+
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_BR);
 
 
         return dateFormat.format(calendar.getTime());
-
     }
 
     public static String formatDate(String stringDate, String maskFrom, String maskTo) {
@@ -77,24 +87,10 @@ public class DateUtils {
         return dateFormat.format(cal.getTime());
     }
 
-    public static String formatDate(String stringDate, String maskFrom, String maskTo, String a) {
-
-        SimpleDateFormat sdf = new SimpleDateFormat();
-        Calendar cal = Calendar.getInstance();
-        try {
-            cal.setTime(sdf.parse(stringDate));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        SimpleDateFormat dateFormat = new SimpleDateFormat(maskTo);
-
-        return dateFormat.format(cal.getTime());
-    }
-
-
     public static String getAge(String dateBirth) {
 
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_BR);
+
         Calendar cal = Calendar.getInstance();
         try {
             cal.setTime(sdf.parse(dateBirth));
@@ -119,7 +115,6 @@ public class DateUtils {
 
         return Integer.toString(age);
     }
-
 
 }
 

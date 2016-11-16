@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 
 android {
-    compileSdkVersion 24
+    compileSdkVersion 25
     buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.example.alianza"
         minSdkVersion 19
-        targetSdkVersion 24
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
@@ -31,32 +31,27 @@ android {
 
 dependencies {
 
-    compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:24.2.1'
-    compile 'com.android.support:cardview-v7:24.2.1'
-    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:appcompat-v7:25.0.1'
+    compile 'com.android.support:design:25.0.1'
+    compile 'com.android.support:cardview-v7:25.0.1'
+    compile 'com.android.support:recyclerview-v7:25.0.1'
     compile 'com.shamanland:fab:0.0.5'
-    compile 'com.google.firebase:firebase-auth:9.6.1'
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
-    compile 'com.google.firebase:firebase-database:9.6.1'
+
 
     // Google
     compile 'com.google.android.gms:play-services-auth:9.6.1'
-    // Google
     compile 'com.google.android.gms:play-services-base:9.6.1'
 
     // Firebase
     compile 'com.google.firebase:firebase-database:9.6.1'
     compile 'com.google.firebase:firebase-auth:9.6.1'
-    // Firebase UI
     compile 'com.firebaseui:firebase-ui-database:0.4.2'
-
+    compile 'com.google.firebase:firebase-storage:9.6.1'
+    compile 'com.google.firebase:firebase-messaging:9.6.1'
+    compile 'com.google.firebase:firebase-crash:9.6.1'
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-
-    compile 'com.google.firebase:firebase-storage:9.6.1'
-
-
 
 
 }

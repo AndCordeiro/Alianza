@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.alianza.R;
 import com.example.alianza.pojo.Match;
+import com.example.alianza.utils.DateUtils;
 
 public class VisualizationMatchActivity extends AppCompatActivity {
 
@@ -95,7 +96,7 @@ public class VisualizationMatchActivity extends AppCompatActivity {
 
     public void setMatch(Match match){
 
-        textViewDateOfMatch.setText(match.getDateOfMatch());
+        textViewDateOfMatch.setText(getResources().getConfiguration().locale.getLanguage().equals("pt") ? match.getDateOfMatch() : DateUtils.formatDate(match.getDateOfMatch(), DateUtils.DATE_BR, DateUtils.DATE_USA));
         textViewHourOfMatch.setText(match.getHourOfMatch());
         textViewOpponentTeam.setText(match.getOpponentTeam());
         textViewPlaceOfMatch.setText(match.getPlaceOfMatch());

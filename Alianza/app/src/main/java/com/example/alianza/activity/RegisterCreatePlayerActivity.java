@@ -4,12 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -33,8 +31,6 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -125,7 +121,7 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
 
-        birth.setText(DateUtils.formatDatePicker(dayOfMonth, month, year));
+        birth.setText(DateUtils.formatDatePicker(dayOfMonth, month, year, this.getResources().getConfiguration().locale.getLanguage()));
 
     }
 
@@ -153,6 +149,12 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
 
                         FireBaseInsert f = new FireBaseInsert();
 
+                        if(!getResources().getConfiguration().locale.getLanguage().equals("pt")){
+
+                            birthString = DateUtils.formatDate(birthString, DateUtils.DATE_USA, DateUtils.DATE_BR);
+
+                        }
+
                         Player player = new Player(birthString, playerString, descriptionString, positionString, null);
 
                         f.insertData(player);
@@ -171,6 +173,12 @@ public class RegisterCreatePlayerActivity extends AppCompatActivity implements D
                     if (!birthString.isEmpty() && !birthString.equals("") && !playerString.isEmpty() && !playerString.equals("") && !descriptionString.isEmpty() && !descriptionString.equals("") && !descriptionString.isEmpty() && !descriptionString.equals("") && !positionString.isEmpty() && !positionString.equals("")) {
 
                         FireBaseInsert f = new FireBaseInsert();
+
+                        if(!getResources().getConfiguration().locale.getLanguage().equals("pt")){
+
+                            birthString = DateUtils.formatDate(birthString, DateUtils.DATE_USA, DateUtils.DATE_BR);
+
+                        }
 
                         Player player = new Player(birthString, playerString, descriptionString, positionString, playerVisualization.getPhoto());
 

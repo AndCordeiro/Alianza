@@ -70,7 +70,7 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
 
                     if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
-                        News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
+                        News news = new News(titleString, newsString, authorString, DateUtils.getDate());
 
                         FireBaseInsert f = new FireBaseInsert();
                         f.insertData(news);
@@ -87,7 +87,7 @@ public class RegisterCreateNewsActivity extends AppCompatActivity {
 
                     if (titleString != null && !titleString.isEmpty() && !titleString.equals("") && authorString != null && !authorString.isEmpty() && !authorString.equals("") && newsString != null && !newsString.isEmpty() && !newsString.equals("")) {
 
-                        News news = new News(titleString, newsString, authorString, DateUtils.getDate(DateUtils.DATE_DB));
+                        News news = new News(titleString, newsString, authorString, DateUtils.getDate());
 
                         news.setId(newsVisualization.getId());
 

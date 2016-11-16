@@ -19,7 +19,6 @@ public class Match implements Serializable{
 
     public Match(String dateOfMatch, String hourOfMatch, String opponentTeam, String placeOfMatch, String description){
 
-        //this.id = id;
         this.dateOfMatch = dateOfMatch;
         this.hourOfMatch = hourOfMatch;
         this.opponentTeam = opponentTeam;

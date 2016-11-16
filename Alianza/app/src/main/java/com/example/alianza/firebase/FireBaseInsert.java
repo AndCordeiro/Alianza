@@ -32,16 +32,12 @@ public class FireBaseInsert {
     public static final String NAME_NEWS = "news";
     public static final String NAME_PLAYER = "player";
     public static final String NAME_MATCH = "match";
-    public static final String NAME_USER = "user";
     public static final String ADMIN = "admin";
     public static final String REQUEST_ADMIN = "request admin";
     public static final String NAME_IMAGES = "images/";
     public static final String NAME_JPG = ".jpg";
 
-    int id = 0;
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    String url;
 
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef = storage.getReferenceFromUrl("https://firebasestorage.googleapis.com/v0/b/alianza-43035.appspot.com/o/");

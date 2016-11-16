@@ -11,10 +11,8 @@ import android.widget.TextView;
 import com.example.alianza.R;
 import com.example.alianza.pojo.News;
 import com.example.alianza.utils.DateUtils;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
@@ -29,12 +27,13 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
     protected List<News> mNews;
     protected OnClickListener onClickListener;
     protected OnLongClickListener onLongClickListener;
+    private Context context;
 
 
     public NewsAdapter(Context context, List<News> news) {
 
         this.mNews = news;
-
+        this.context = context;
     }
 
     @Override
@@ -50,7 +49,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> im
         News news = mNews.get(position);
         holder.title.setText(news.getTitle());
         holder.author.setText(news.getAuthor());
-        holder.dateNews.setText(news.getDateNews());
+        holder.dateNews.setText(context.getResources().getConfiguration().locale.getLanguage().equals("pt") ? news.getDateNews() : DateUtils.formatDate(news.getDateNews(), DateUtils.DATE_BR, DateUtils.DATE_USA));
 
 
     }
